@@ -135,3 +135,7 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+
+#misc apple favicon
+apple-touch-icon-precomposed.png
+apple-touch-icon.png
