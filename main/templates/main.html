@@ -1,11 +1,80 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<h1>TK BASDAT</h1>
-
-<h5>Name:</h5>
-<p>{{name}}</p>
-
-<h5>Class:</h5>
-<p>{{class}}</p>
-{% endblock content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PacilFlix</title>
+    <style>
+        /* Import Google font - Poppins */
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        body {
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .content {
+            width: 90%;
+            max-width: 360px;
+            padding: 40px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .content h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .content p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .content .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .content a {
+            flex: 1;
+            margin: 0 5px;
+            padding: 15px 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .content a.login {
+            background-color: #7d2ae8;
+            color: #fff;
+        }
+        .content a.register {
+            background-color: #fff;
+            color: #7d2ae8;
+            border: 2px solid #7d2ae8;
+        }
+        .content a:hover {
+            background-color: #5a1db6;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <h1>Welcome to PacilFlix - F12</h1>
+    <p>Explore and manage your favorite movies, shows, and more.</p>
+    <div class="btn-container">
+        <a class="login" href="{% url 'authentication:login' %}">Login</a>
+        <a class="register" href="{% url 'authentication:register' %}">Register</a>
+    </div>
+</div>
+</body>
+</html>
