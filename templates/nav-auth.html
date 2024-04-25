@@ -1,0 +1,21 @@
+<!-- navbar.html -->
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 60px; background-color: #f8f9fa;">
+    <div class="container-fluid" style="display: flex; align-items: center; margin-top: 10px; margin-left: 10px;">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'PacilFix Logo-dark.png' %}" alt="PacilFlix Logo" style="height: 40px; width: auto;">
+        </a>
+
+        <a class="nav-link" style="margin-left: 20px; line-height: 40px; font-weight: 500; color: #000; text-decoration: none;" href="{% url 'main:show_main' %}" onmouseover="this.style.color='#7d2ae8';" onmouseout="this.style.color='#000';">Home</a>
+        <a class="nav-link active" style="margin-left: 20px; line-height: 40px; font-weight: 500; color: #000; text-decoration: none;" aria-current="page" href="" onmouseover="this.style.color='#7d2ae8';" onmouseout="this.style.color='#000';">Trailers</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="margin-top: 10px;">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <!-- Other nav items go here -->
+            </ul>
+        </div>
+    </div>
+</nav>

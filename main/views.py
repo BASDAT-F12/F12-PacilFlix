@@ -7,3 +7,5 @@ def show_main(request):
     }
 
     return render(request, "main.html", context)
+
+

@@ -1,11 +1,25 @@
-{% extends 'base.html' %}
+{% extends 'nav-main.html' %}
+
+{% block title %}PacilFlix {% endblock %}
 
 {% block content %}
-<h1>TK BASDAT</h1>
+<div class="container" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+    <div class="form_container" style="display: flex; flex-direction: column; justify-content: space-between; max-width: 400px; width: 100%; min-height: 300px; background: transparent; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
 
-<h5>Name:</h5>
-<p>{{name}}</p>
+        <h1 style="text-align: center; font-weight: bold;">
+            <span style="color: #fff;">Pacil</span><span style="color: #7d2ae8; font-style: italic;">Flix</span>
+        </h1>
 
-<h5>Class:</h5>
-<p>{{class}}</p>
-{% endblock content %}
+        {% if user.is_authenticated %}
+        <p style="color: #fff; text-align: center; margin: 10px 0 20px;">Welcome back, {{ user.username }}!</p>
+        <p style="color: #fff; text-align: center; margin: 10px 0 20px;">Explore and manage your favorite movies, shows, and more.</p>
+        {% else %}
+        <p style="color: #fff; text-align: center; margin: 10px 0 20px;">Explore and manage your favorite movies, shows, and more.</p>
+        <div class="btn-container" style="display: flex; justify-content: space-between;">
+            <a class="button" href="{% url 'authentication:login' %}" style="flex: 1; margin-right: 5px; background-color: rgba(125, 42, 232, 0.8); color: #fff; border-radius: 8px; padding: 8px 0; text-align: center; text-decoration: none;">Login</a>
+            <a class="button" href="{% url 'authentication:register' %}" style="flex: 1; margin-left: 5px; background-color: rgba(255, 255, 255, 0.8); color: #7d2ae8; border: 2px solid #7d2ae8; border-radius: 8px; padding: 8px 0; text-align: center; text-decoration: none;">Register</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
