@@ -40,6 +40,8 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
 
-def logout_view(request):
-        logout(request)
-        return redirect('authentication:login')
+
+def logout_user(request):
+    logout(request)
+    return redirect('main:show_main')
+

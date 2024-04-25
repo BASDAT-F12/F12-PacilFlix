@@ -1,6 +1,6 @@
 {% extends 'nav-main.html' %}
 
-{% block title %}PacilFlix - F12{% endblock %}
+{% block title %}PacilFlix {% endblock %}
 
 {% block content %}
 <div class="container" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -10,12 +10,15 @@
             <span style="color: #fff;">Pacil</span><span style="color: #7d2ae8; font-style: italic;">Flix</span>
         </h1>
 
-
+        {% if user.is_authenticated %}
+        <p style="color: #fff; text-align: center; margin: 10px 0 20px;">Welcome back, {{ user.username }}!</p>
+        {% else %}
         <p style="color: #fff; text-align: center; margin: 10px 0 20px;">Explore and manage your favorite movies, shows, and more.</p>
         <div class="btn-container" style="display: flex; justify-content: space-between;">
             <a class="button" href="{% url 'authentication:login' %}" style="flex: 1; margin-right: 5px; background-color: rgba(125, 42, 232, 0.8); color: #fff; border-radius: 8px; padding: 8px 0; text-align: center; text-decoration: none;">Login</a>
             <a class="button" href="{% url 'authentication:register' %}" style="flex: 1; margin-left: 5px; background-color: rgba(255, 255, 255, 0.8); color: #7d2ae8; border: 2px solid #7d2ae8; border-radius: 8px; padding: 8px 0; text-align: center; text-decoration: none;">Register</a>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
