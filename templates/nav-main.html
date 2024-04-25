@@ -13,6 +13,7 @@
     body {
       background-image: url("static/bg.jpg");
       background-size: cover;
+      backdrop-filter: blur(8px);
     }
     .navbar-brand img {
       height: 40px;
@@ -31,10 +32,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'main:show_main' %}">Home</a>
-          </li>
           {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" style="color: white;">Welcome, {{ user.username }}!</a> <!-- Displaying username -->
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="">Shows</a>
           </li>
@@ -59,7 +60,8 @@
         {% if user.is_authenticated %}
           <ul class="navbar-nav ms-auto"> <!-- Logout on the right -->
             <li class="nav-item">
-              <a class="nav-link btn btn-outline-danger" href="{% url 'authentication:logout' %}" style="color: white; display: flex; align-items: center;">                <i class="fas fa-sign-out-alt"></i> Logout
+              <a class="nav-link btn btn-outline-danger" href="{% url 'authentication:logout' %}" style="color: white; display: flex; align-items: center;">
+                <i class="fas fa-sign-out-alt"></i> Logout
               </a>
             </li>
           </ul>
