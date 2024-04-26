@@ -12,7 +12,9 @@
     body {
       background-image: url("{% static 'bg.jpg' %}");
       background-size: cover;
-      backdrop-filter: blur(8px);
+      {% if user.is_authenticated %}
+        backdrop-filter: blur(8px);
+      {% endif %}
     }
     .navbar-brand img {
       height: 40px;
@@ -24,7 +26,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-transparent" >
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="{% url 'main:show_main' %}">
         <img src="{% static 'PacilFix Logo.png' %}" alt="PacilFlix Logo">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +36,7 @@
         <ul class="navbar-nav me-auto">
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" style="color: white;">Welcome, {{ user.username }}!</a> <!-- Displaying username -->
+            <a class="nav-link" href="{% url 'main:show_main' %}" style="color: white;">Welcome, {{ user.username }}!</a> <!-- Displaying username -->
           </li>
 
           <li class="nav-item">
