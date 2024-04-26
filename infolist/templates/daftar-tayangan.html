@@ -1,0 +1,14 @@
+{% load static %}
+{% include "nav-main.html" %}
+
+{% block content %}
+<div class='container'>
+
+    {% include top_table.html %}
+
+    {% include film_table.html %}
+
+    {% include series_table.html %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Series</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Judul</th>
+                <th>Sinopsis Trailer</th>
+                <th>URL Trailer</th>
+                <th>Tanggal rilis trailer</th>
+                {% if user.is_authenticated %}
+                <th>Tayangan</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for show in series %}
+            <tr>
+                <td>{{ show.judul }}</td>
+                <td>{{ show.sinopsis_trailer }}</td>
+                <td><a href="{{ show.url_video_trailer }}">{{show.url_video_trailer}}</a></td>
+                <td>{{ show.release_date_trailer }}</td>
+                {% if user.is_authenticated %}
+                <td><button class="btn btn-primary"></button></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
