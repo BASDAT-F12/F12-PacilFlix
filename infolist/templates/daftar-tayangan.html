@@ -1,0 +1,13 @@
+{% extends 'nav-main.html' %}
+
+{% block title %}PacilFlix {% endblock %}
+
+{% block content %}
+<body id="daftar">
+<div class='container'>
+    {% include "top_table.html" %}
+    {% include "film_table.html" %}
+    {% include "series_table.html" %}
+</div>
+</body>
+{% endblock %}
