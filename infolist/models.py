@@ -12,8 +12,6 @@ class Tayangan(models.Model):
     release_date_trailer = models.DateField()
     sutradara = models.ForeignKey('Sutradara', on_delete=models.CASCADE)
     
-    class Meta: 
-        abstract = True 
 
 class Series(Tayangan):
     pass 
