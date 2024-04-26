@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
+from user.models import Pengguna
+
 
 # Create your views here.
 
@@ -28,7 +30,11 @@ def login_view(request ):
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
         if form.is_valid():
+            user = Pengguna(username=username, password=password)
+            user.save()
             form.save()
             return redirect('authentication:login')
         else:
