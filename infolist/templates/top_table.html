@@ -20,12 +20,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for film in films %}
+            {% for tayangan in tayangans %}
             <tr>
-                <td>{{ film.judul }}</td>
-                <td>{{ film.sinopsis_trailer }}</td>
-                <td><a href="{{ film.url_video_trailer }}">{{film.url_video_trailer}}</a></td>
-                <td>{{ film.release_date_trailer }}</td>
+                <td>{{ tayangan.judul }}</td>
+                <td>{{ tayangan.sinopsis_trailer }}</td>
+                <td><a href="{{ tayangan.url_video_trailer }}">{{tayangan.url_video_trailer}}</a></td>
+                <td>{{ tayangan.release_date_trailer }}</td>
                 <td>30K</td>
                 {% if  user.is_authenticated %}
                 <td><button class="btn btn-primary"></button></td>
