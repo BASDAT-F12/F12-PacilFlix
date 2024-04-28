@@ -31,9 +31,11 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         username = request.POST['username']
-        password = request.POST['password']
+        password2 = request.POST['password2']
+        country = request.POST['country']
         if form.is_valid():
-            user = Pengguna(username=username, password=password)
+            print(country)
+            user = Pengguna(username=username, password=password2, country=country)
             user.save()
             form.save()
             return redirect('authentication:login')
