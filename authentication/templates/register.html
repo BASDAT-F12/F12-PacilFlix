@@ -47,7 +47,7 @@
             position: fixed;
             max-width: 320px;
             width: 100%;
-            top: 50%;
+            top: 310px;
             left: 50%;
             transform: translate(-50%, -50%) scale(1.2);
             z-index: 101;
@@ -58,6 +58,7 @@
             opacity: 0;
             pointer-events: none;
             transition: all 0.4s ease-out;
+            overflow-y: auto; /* Add this to make it scrollable */
         }
         .home.show .form_container {
             opacity: 1;
@@ -157,6 +158,13 @@
             text-align: justify-all;
             padding-top: 10px;
         }
+        .input_box i.country {
+            left: 0;
+        }
+        .input_box input:focus ~ i.country {
+            color: #7d2ae8;
+        }
+
 
     </style>
     <!-- Unicons -->
@@ -193,6 +201,13 @@
                     <i class="uil uil-lock password"></i>
                     <i class="uil uil-eye-slash pw_hide"></i>
                 </div>
+                <div class="input_box">
+                    <label>
+                        <input type="text" name="country" placeholder="Country" required />
+                    </label>
+                    <i class="uil uil-globe country"></i>
+                </div>
+                
                 <button type="submit" class="button">Signup Now</button>
                 <div class="login_signup">Already have an account? <a href="{% url 'authentication:login' %}" id="login">Login</a></div>
             </form>

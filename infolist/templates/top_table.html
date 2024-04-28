@@ -1,0 +1,38 @@
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Top 10 Tayangan Terbaik Minggu ini</h2>
+    <div class="btn-group">
+        <button class="btn btn-light" style="border: 1px solid #ccc; transition: background-color 0.3s;">Top 10 Global</button>
+        <button class="btn btn-light" style="border: 1px solid #ccc; transition: background-color 0.3s;">Top 10 Local</button>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Judul</th>
+                <th>Sinopsis Trailer</th>
+                <th>URL Trailer</th>
+                <th>Tanggal rilis trailer</th>
+                <th>Total View 7 hari terakhir</th>
+                {% if  user.is_authenticated %}
+                <th>Tayangan</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for tayangan in tayangans %}
+            <tr>
+                <td>{{ tayangan.judul }}</td>
+                <td>{{ tayangan.sinopsis_trailer }}</td>
+                <td><a href="{{ tayangan.url_video_trailer }}">{{tayangan.url_video_trailer}}</a></td>
+                <td>{{ tayangan.release_date_trailer }}</td>
+                <td>30K</td>
+                {% if  user.is_authenticated %}
+                <td><button class="btn btn-primary"></button></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
