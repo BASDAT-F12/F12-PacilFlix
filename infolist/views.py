@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404,render
 from infolist.models import Tayangan, Film, Series, Sutradara
 
 def list_tayangan(request):
@@ -11,3 +11,16 @@ def list_tayangan(request):
         'films': films,
         'series': series
     })
+    
+def detail_tayangan(request, tayangan_id):
+    tayangan = get_object_or_404(Tayangan, pk=tayangan_id)
+    if isinstance(tayangan, Film):
+        tayangan_type = 'film'
+    elif isinstance(tayangan, Series):
+        tayangan_type = 'series'
+    else:
+        return None
+    return render(request, 'detail-tayangan.html',{
+        'tayangan': tayangan,
+        'tayangan_type': tayangan_type
+        })
