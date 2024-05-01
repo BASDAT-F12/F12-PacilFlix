@@ -20,7 +20,13 @@
     }
 </style>
 {% block content %}
+
 <div class='container'>
+    <h2 style="text-align: center;">Daftar Tayangan</h2>
+    <form class="d-flex" role="search" action="{% url 'infolist:search_list' %}" method="get">
+        <input class="form-control me-2" type="search" placeholder="Cari tayangan" aria-label="Search" name="q">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
     {% include "top_table.html" %}
     {% include "film_table.html" %}
     {% include "series_table.html" %}

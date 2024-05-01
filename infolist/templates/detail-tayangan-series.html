@@ -1,0 +1,52 @@
+{% include "nav-main.html" %}
+<style>
+    * {
+        color: white;
+    }
+</style>
+{% block content %}
+<div class="container mt-4">
+    <h1>HALAMAN SERIES</h1>
+    <h2> Judul: Resurrecting the Street Walker</h2>
+    <button class="btn btn-primary" href="">Tonton</button>
+    <button class="btn btn-primary" href="">Download</button>
+    <button class="btn btn-primary" href="">Favorite</button>
+
+    <h3>Episodes</h3>
+    <ul>
+        <li><a href="{% url 'infolist:detail_tayangan_episode' %}">Watch Episode 1 - Whispers in the Dark</a></li>
+        <li><a href="{% url 'infolist:detail_tayangan_episode' %}">Watch Episode 2 - Dance of the Elements</a></li>
+    </ul>
+
+    <p>Total View: 50000</p>
+    <p>Rating: 4.8</p>
+    <p>Sinopsis: Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien.</p>
+    <p>Genre:</p>
+    <ul>
+        <li>Drama</li>
+        <li>Thriller</li>
+    </ul>
+    
+    <!-- Cast -->
+    <p>Pemain:</p>
+    <ul>
+        <li>Whit Dicker</li>
+        <li>Marabel Claremont</li>
+        <li>Jessamine Normant</li>
+        <li>Denver Gillibrand</li>
+    </ul>
+
+    <!-- Screenplay Writers -->
+    <p>Penulis:</p>
+    <ul>
+        <li>Major Chidler</li>
+        <li>Nedi Bilverstone</li>
+        <li>Neely Smullin</li>
+    </ul>
+
+    <!-- Director -->
+    <p>Sutradara: Meryl Kellet</p>
+
+    {% include "ulasan-tayangan.html" %}
+</div>
+{% endblock %}
