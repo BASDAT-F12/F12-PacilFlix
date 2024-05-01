@@ -1,0 +1,26 @@
+{%  include  'nav-main.html' %}
+{% block title %}{% endblock %}
+<style>
+    h2{ 
+        color: white;
+    }
+    th{
+        color: white
+    }
+    tr{
+        color: white;
+    }
+    .btn-light {
+        background-color: #8a2be2;  /* base color: purple */
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+    .btn-light:hover {
+        background-color: #f0e130; /* hover color: pastel yellow */
+    }
+</style>
+{% block content %}
+<div class='container'>
+    {% include "contributor_table.html" %}
+</div>
+{% endblock %}

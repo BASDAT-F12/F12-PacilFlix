@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'main',
     'authentication',
     'infolist',
-    'user'
+    'user',
+    'contributors'
 ]
 
 MIDDLEWARE = [
