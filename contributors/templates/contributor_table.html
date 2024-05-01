@@ -1,0 +1,36 @@
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Daftar Kontributor</h2>
+    <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" style="border: 1px solid #ccc; transition: background-color 0.3s;">
+          Cari berdasarkan Tipe
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item">Pemain</a></li>
+          <li><a class="dropdown-item">Sutradara</a></li>
+          <li><a class="dropdown-item">Penulis Skenario</a></li>
+        </ul>
+      </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Tipe</th>
+                <th>Jenis Kelamin</th>
+                <th>Kewarganegaraan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contributor in contributors %}
+            <tr>
+                <td>{{ contributors.nama }}</td>
+                <td>{{ contributors.tipe }}</td>
+                <td>{{ contributors.jenis_kelamin }}</td>
+                <td>{{ contributors.kewarganegaraan }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
