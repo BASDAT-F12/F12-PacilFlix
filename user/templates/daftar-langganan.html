@@ -1,0 +1,21 @@
+{%  include  'nav-main.html' %}
+{% block title %}{% endblock %}
+<style>
+    h3, h2{
+        color: white;
+    }
+    th{
+        color: white
+    }
+    tr{
+        color: white;
+    }
+</style>
+{% block content %}
+<h2 align="center">Manage Subscriptions Page</h2>
+<div class='container'>
+    {% include "paket-aktif.html" %}
+    {% include "paket-lain.html" %}
+    {% include "riwayat-transaksi.html" %}
+</div>
+{% endblock %}
