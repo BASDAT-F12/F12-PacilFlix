@@ -1,0 +1,47 @@
+{% include "nav-main.html" %}
+<style>
+    * {
+        color: white;
+    }
+</style>
+{% block content %}
+<div class="container mt-4">
+    <h1>HALAMAN FILM</h1>
+    <h2> Judul: Crac</h2>
+    <button class="btn btn-primary" href="">Tonton</button>
+    <button class="btn btn-primary" href="">Download</button>
+    <button class="btn btn-primary" href="">Favorite</button>
+
+    <p>Total View: 30000</p>
+    <p>Rating: 4.5</p>
+    <p>Sinopsis: Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.</p>
+    <p>Durasi Film: 120 Menit</p>
+    <p>URL Film: https://www.example.com/film/crac</p>
+    <p>Genre:</p>
+    <ul>
+        <li>Mystery</li>
+        <li>Horror</li>
+        <li>Thriller</li>
+    </ul>
+
+    <!-- Cast -->
+    <p>Pemain:</p>
+    <ul>
+        <li>Kathleen MacKilroe</li>
+        <li>Chandal Alibone</li>
+        <li>Whit Dicker</li>
+    </ul>
+
+    <!-- Screenplay Writers -->
+    <p>Penulis:</p>
+    <ul>
+        <li>Gerry Woolley</li>
+        <li>Delmar Jobbins</li>
+    </ul>
+
+    <!-- Director -->
+    <p>Sutradara: Meryl Kellet</p>
+
+    {% include "ulasan-tayangan.html" %}
+</div>
+{% endblock %}

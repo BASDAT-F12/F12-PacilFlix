@@ -14,17 +14,15 @@
             </tr>
         </thead>
         <tbody>
-            {% for show in series %}
             <tr>
-                <td>{{ show.judul }}</td>
-                <td>{{ show.sinopsis_trailer }}</td>
-                <td><a href="{{ show.url_video_trailer }}">{{show.url_video_trailer}}</a></td>
-                <td>{{ show.release_date_trailer }}</td>
+                <td>Resurrecting the Street Walker</td>
+                <td>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</td>
+                <td><a href="https://www.pacilflix.com/trailer/?id=88ed18bf-74ee-530e-a9bc-5e107017dea1">Link Trailer</a></td>
+                <td>2024-03-06</td>
                 {% if user.is_authenticated %}
-                <td><button class="btn btn-primary"></button></td>
+                <td><a href="{% url 'infolist:detail_tayangan_series' %}" class="btn btn-primary">Tonton</a></td>
                 {% endif %}
             </tr>
-            {% endfor %}
         </tbody>
     </table>
 </div>
