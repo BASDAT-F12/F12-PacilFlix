@@ -12,7 +12,7 @@
     body {
       background-image: url("{% static 'bg.jpg' %}");
       background-size: cover;
-      {% if user.is_authenticated %}
+      {% if request.session.is_authenticated %}
         backdrop-filter: blur(8px);
       {% endif %}
     }
@@ -34,9 +34,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          {% if user.is_authenticated %}
+          {% if request.session.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'main:show_main' %}" style="color: white;">Welcome, {{ user.username }}!</a> <!-- Displaying username -->
+            <a class="nav-link" href="{% url 'main:show_main' %}" style="color: white;">Welcome, {{ request.session.username }}!</a> <!-- Displaying username -->
           </li>
 
           <li class="nav-item">
@@ -60,7 +60,7 @@
           </li>
           {% endif %}
         </ul>
-        {% if user.is_authenticated %}
+        {% if request.session.is_authenticated %}
           <ul class="navbar-nav ms-auto"> <!-- Logout on the right -->
             <li class="nav-item">
               <a class="nav-link btn btn-outline-danger" href="{% url 'authentication:logout' %}" style="color: white; display: flex; align-items: center;">

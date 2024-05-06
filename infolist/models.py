@@ -1,6 +1,5 @@
 from django.db import models
 import uuid
-from user.models import Pengguna
 # Create your models here.
 # model for frontend purposes
 class Tayangan(models.Model):
