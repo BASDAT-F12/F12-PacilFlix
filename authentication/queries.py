@@ -5,15 +5,15 @@ from psycopg2 import sql
 def create_connection():
     conn = psycopg2.connect(
         # local vinka
-        # dbname="vinka.alrezky",
-        # user="postgres",
-        # password="VeryVerySecret",
-        # host="localhost"
-        dbname="railway",
+        dbname="vinka.alrezky",
         user="postgres",
-        password="ZLAWBQxRhNoDzvIaLJHXSjgVvzwFeqpx",
-        host="monorail.proxy.rlwy.net",
-        port="48577"
+        password="VeryVerySecret",
+        host="localhost"
+        # dbname="railway",
+        # user="postgres",
+        # password="ZLAWBQxRhNoDzvIaLJHXSjgVvzwFeqpx",
+        # host="monorail.proxy.rlwy.net",
+        # port="48577"
     )
     return conn
 
