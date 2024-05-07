@@ -1,0 +1,56 @@
+{%  include  'nav-main.html' %}
+{% block title %}{% endblock %}
+<style>
+    h2{ 
+        color: white;
+    }
+    th{
+        color: white
+    }
+    tr{
+        color: white;
+    }
+    .btn-light {
+        background-color: #8a2be2;  /* base color: purple */
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+    .btn-light:hover {
+        background-color: #f0e130; /* hover color: pastel yellow */
+    }
+</style>
+{% block content %}
+<div class='container'>
+    <form class="d-flex" role="search" action="{% url 'infolist:search_list' %}" method="get">
+        <input class="form-control me-2" type="search" placeholder="Cari tayangan" aria-label="Search" name="q">
+        <button class="btn btn-secondary" type="submit">Search</button>
+    </form>
+    <div class="container mt-4">
+        <h2>Hasil Pencarian</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Judul</th>
+                    <th>Sinopsis Trailer</th>
+                    <th>URL Trailer</th>
+                    <th>Tanggal rilis trailer</th>
+                    <th>Tayangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <tr>
+                        <td>Crac</td>
+                        <td>Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.</td>
+                        <td><a href="https://www.pacilflix.com/trailer/?id=d4f4e437-1cee-5262-8f60-15968c413f22">Link Trailer</a></td>
+                        <td>2024-03-01</td>
+                        {% if request.session.is_authenticated %}
+                        <td><a href="{% url 'infolist:detail_tayangan_film' %}" class="btn btn-primary">Tonton</a></td>
+                        {% endif %}
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

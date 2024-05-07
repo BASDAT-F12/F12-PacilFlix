@@ -1,0 +1,54 @@
+{%  include  'nav-main.html' %}
+{% block title %}{% endblock %}
+<style>
+    h3, h2, h5, h6{
+        color: white;
+    }
+    th{
+        color: white
+    }
+    tr{
+        color: white;
+    }
+    .btn-light {
+        background-color: white;
+        color: #8a2be2;
+    }
+</style>
+{% block content %}
+<div class='container'>
+    <h2 style="font-weight: bold; text-align: left; margin-top: 30px; margin-bottom: 30px">Halaman Beli</h2>
+    <h5>Informasi Paket yang Ingin Dibeli:</h5>
+    <table class="table table" style="margin-bottom: 40px" align="center">
+        <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Resolusi Layar</th>
+            <th>Dukungan Perangkat</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Premium</td>
+            <td>75,000 IDR</td>
+            <td>2160p60</td>
+            <td>Television, Desktop, Mobile</td>
+        </tr>
+        </tbody>
+
+    </table>
+    <h5>Pilih Metode Pembayaran:</h5>
+    <select class="form-select" aria-label="Default select example" style="width: 250px">
+        <option selected>Transfer Bank</option>
+        <option value="2">Kartu Kredit</option>
+        <option value="3">E-Wallet</option>
+    </select>
+    <div align="left" style="margin-top: 130px">
+        <a class="nav-link btn btn-light" href="" style=" text-align: left; color: #0b0217; width: 120px;">
+            <i class="fa fa-tags"></i>     Bayar
+        </a>
+    </div>
+
+</div>
+{% endblock %}

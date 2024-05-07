@@ -1,0 +1,51 @@
+{% block content %}
+<div class="container mt-4">
+    <h3>Pilih Paket Lain:</h3>
+    <table class="table table">
+        <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Resolusi Layar</th>
+            <th>Dukungan Perangkat</th>
+            <th align="center">Beli</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Premium</td>
+            <td>75,000 IDR</td>
+            <td>2160p60</td>
+            <td>Television, Desktop, Mobile</td>
+            <td>
+                <a class="nav-link btn btn-outline-secondary" href="" style="color: white;">
+                    <i class="fa fa-plus-square"></i> Beli
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>Standard</td>
+            <td>50,000 IDR</td>
+            <td>1080p</td>
+            <td>Television, Desktop, Mobile</td>
+            <td>
+                <a class="nav-link btn btn-outline-secondary" href="" style="color: white;">
+                    <i class="fa fa-plus-square"></i> Beli
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>Basic</td>
+            <td>30,000 IDR</td>
+            <td>720p</td>
+            <td>Desktop, Mobile</td>
+            <td>
+                <a class="nav-link btn btn-outline-secondary" href="{% url 'user:halaman-beli' %}" style="color: white;">
+                    <i class="fa fa-plus-square"></i> Beli
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
