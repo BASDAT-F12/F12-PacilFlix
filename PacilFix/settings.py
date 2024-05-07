@@ -10,10 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+import dj_database_url
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+PRODUCTION = os.getenv('DATABASE_URL') is not None
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,6 +31,9 @@ SECRET_KEY = 'django-insecure-gw(2p-e#ak==i=+%pfsspqk3)j0d=kh^j*g7yxesf!g(9l+^)h
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = ["https://babadu-1.up.railway.app", "http://localhost:8000", "http://127.0.0.1:8000/"]
+CORS_ORIGIN_WHITELIST = ["https://babadu-1.up.railway.app", "http://localhost:8000", "http://127.0.0.1:8000/"]
+
 
 
 # Application definition
@@ -105,6 +113,11 @@ DATABASES = {
     }
 }
 
+
+if PRODUCTION:
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600, ssl_require=True
+    )
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
