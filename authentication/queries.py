@@ -4,10 +4,16 @@ from psycopg2 import sql
 # Fungsi untuk membuat koneksi ke database
 def create_connection():
     conn = psycopg2.connect(
-        dbname="vinka.alrezky",
+        # local vinka
+        # dbname="vinka.alrezky",
+        # user="postgres",
+        # password="VeryVerySecret",
+        # host="localhost"
+        dbname="railway",
         user="postgres",
-        password="VeryVerySecret",
-        host="localhost"
+        password="ZLAWBQxRhNoDzvIaLJHXSjgVvzwFeqpx",
+        host="monorail.proxy.rlwy.net",
+        port="48577"
     )
     return conn
 
