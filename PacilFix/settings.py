@@ -86,12 +86,21 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
     # Local Vinka
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'vinka.alrezky',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'VeryVerySecret',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
+    # Semoga bisa deployment
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vinka.alrezky',
-        'USER': 'postgres',
-        'PASSWORD': 'VeryVerySecret',
-        'HOST': 'localhost',
+        'NAME': 'postgres',
+        'USER': 'postgres.witvydzeryxcceqwiqhn',
+        'PASSWORD': 'FasilkomPacil22',
+        'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
         'PORT': '5432',
     }
 }
