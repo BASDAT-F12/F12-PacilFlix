@@ -9,11 +9,11 @@ def create_connection():
         # user="postgres",
         # password="VeryVerySecret",
         # host="localhost"
-        dbname="railway",
-        user="postgres",
-        password="ZLAWBQxRhNoDzvIaLJHXSjgVvzwFeqpx",
-        host="monorail.proxy.rlwy.net",
-        port="48577"
+        dbname="postgres",
+        user="postgres.witvydzeryxcceqwiqhn",
+        password="FasilkomPacil22",
+        host="aws-0-ap-southeast-1.pooler.supabase.com",
+        port="5432"
     )
     return conn
 

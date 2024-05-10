@@ -97,11 +97,11 @@ DATABASES = {
     # Semoga bisa deployment
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'ZLAWBQxRhNoDzvIaLJHXSjgVvzwFeqpx',
-        'HOST': 'monorail.proxy.rlwy.net',
-        'PORT': '48577',
+        'NAME': 'postgres',
+        'USER': 'postgres.witvydzeryxcceqwiqhn',
+        'PASSWORD': 'FasilkomPacil22',
+        'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
+        'PORT': '5432',
     }
 }
 
