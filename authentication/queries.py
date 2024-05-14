@@ -17,7 +17,6 @@ def create_connection():
     )
     return conn
 
-# Fungsi untuk mengeksekusi kueri tanpa hasil kembali
 def execute_query(query, params=None):
     conn = create_connection()
     cur = conn.cursor()
