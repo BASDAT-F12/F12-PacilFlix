@@ -31,9 +31,8 @@ SECRET_KEY = 'django-insecure-gw(2p-e#ak==i=+%pfsspqk3)j0d=kh^j*g7yxesf!g(9l+^)h
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["https://babadu-1.up.railway.app", "http://localhost:8000", "http://127.0.0.1:8000/"]
-CORS_ORIGIN_WHITELIST = ["https://babadu-1.up.railway.app", "http://localhost:8000", "http://127.0.0.1:8000/"]
 
+CSRF_TRUSTED_ORIGINS = ["https://f12-pacilflix-production.up.railway.app", "https://*.127.0.0.1" ]
 
 
 # Application definition
@@ -94,30 +93,25 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
     # Local Vinka
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vinka.alrezky',
-        'USER': 'postgres',
-        'PASSWORD': 'VeryVerySecret',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-    # Semoga bisa deployment
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'railway',
+    #     'NAME': 'vinka.alrezky',
     #     'USER': 'postgres',
-    #     'PASSWORD': 'ZLAWBQxRhNoDzvIaLJHXSjgVvzwFeqpx',
-    #     'HOST': 'monorail.proxy.rlwy.net',
-    #     'PORT': '48577',
+    #     'PASSWORD': 'VeryVerySecret',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
     # }
+    # Semoga bisa deployment
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.witvydzeryxcceqwiqhn',
+        'PASSWORD': 'FasilkomPacil22',
+        'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
+        'PORT': '5432',
+    }
 }
 
-
-if PRODUCTION:
-    DATABASES['default'] = dj_database_url.config(
-        conn_max_age=600, ssl_require=True
-    )
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
