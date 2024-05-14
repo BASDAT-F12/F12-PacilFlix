@@ -1,11 +1,11 @@
+import psycopg2
+from psycopg2 import Error as PsycopgError
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from authentication.queries import register_user, login_user
 
-
-# Create your views here.
 
 # Login view
 def login_view(request):
@@ -15,9 +15,8 @@ def login_view(request):
         if login_user(username, password):
             request.session['is_authenticated'] = True
             request.session['username'] = username
-            return redirect('main:show_main')
+            return redirect('infolist:list-tayangan')
         else:
-            # Jika login gagal, tampilkan pesan kesalahan
             messages.error(request, 'Invalid username or password')
             return redirect('authentication:login')
     else:
@@ -36,8 +35,13 @@ def register(request):
                 register_user(username, password, country)
                 messages.success(request, 'User registered successfully!')
                 return redirect('authentication:login')
-            except Exception as e:
-                messages.error(request, f'Error registering user: {str(e)}')
+            except PsycopgError as e:
+                error_message = str(e)
+                # Username checking trigger
+                if "Username already exists" in error_message:
+                    messages.error(request, 'Username already exists. Please choose a different username.')
+                else:
+                    messages.error(request, f'Error registering user: {error_message}')
         else:
             for field, errors in form.errors.items():
                 for error in errors:
