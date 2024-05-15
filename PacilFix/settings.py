@@ -94,14 +94,14 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
     ### Local Farrel
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME' : 'farrel.sheva',
-        'USER' : 'postgres',
-        'PASSWORD' : 'noovader1',
-        'HOST' : 'localhost',
-        'PORT' : '5432',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME' : 'farrel.sheva',
+    #     'USER' : 'postgres',
+    #     'PASSWORD' : 'noovader1',
+    #     'HOST' : 'localhost',
+    #     'PORT' : '5432',
+    # }
     # Local Vinka
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
@@ -112,14 +112,14 @@ DATABASES = {
     #     'PORT': '5432',
     # }
     # Semoga bisa deployment
-    # 'default': {
-    #    'ENGINE': 'django.db.backends.postgresql',
-    #    'NAME': 'postgres',
-    #    'USER': 'postgres.witvydzeryxcceqwiqhn',
-    #    'PASSWORD': 'FasilkomPacil22',
-    #    'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
-    #    'PORT': '5432',
-    # }
+    'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'postgres',
+       'USER': 'postgres.witvydzeryxcceqwiqhn',
+       'PASSWORD': 'FasilkomPacil22',
+       'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
+       'PORT': '5432',
+    }
 }
 
 
