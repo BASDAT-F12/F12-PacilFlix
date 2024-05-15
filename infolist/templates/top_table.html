@@ -13,7 +13,7 @@
                 <th>URL Trailer</th>
                 <th>Tanggal rilis trailer</th>
                 <th>Total View 7 hari terakhir</th>
-                {% if user.is_authenticated %}
+                {% if request.session.is_authenticated %}
                 <th>Tayangan</th>
                 {% endif %}
             </tr>
@@ -25,7 +25,7 @@
                 <td><a href="https://www.pacilflix.com/trailer/?id=d4f4e437-1cee-5262-8f60-15968c413f22">Link Trailer</a></td>
                 <td>2024-03-01</td>
                 <td>30K</td>
-                {% if user.is_authenticated %}
+                {% if request.session.is_authenticated %}
                 <td><a href="{% url 'infolist:detail_tayangan_film' %}" class="btn btn-primary">Tonton</a></td>
                 {% endif %}
             </tr>
@@ -35,8 +35,8 @@
                 <td><a href="https://www.pacilflix.com/trailer/?id=88ed18bf-74ee-530e-a9bc-5e107017dea1">Link Trailer</a></td>
                 <td>2024-03-06</td>
                 <td>30K</td>
-                {% if user.is_authenticated %}
-                <td><a href="{% url 'infolist:detail_tayangan_episode' %}" class="btn btn-primary">Tonton</a></td>
+                {% if request.session.is_authenticated %}
+                <td><a href="{% url 'infolist:detail_tayangan_series' %}" class="btn btn-primary">Tonton</a></td>
                 {% endif %}
             </tr>
         </tbody>

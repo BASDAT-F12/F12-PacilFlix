@@ -1,27 +1,24 @@
+import psycopg2
+from psycopg2 import Error as PsycopgError
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from authentication.queries import register_user, login_user
 
-from user.models import Pengguna
-
-
-# Create your views here.
 
 # Login view
-def login_view(request ):
+def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('main:show_main') 
+        if login_user(username, password):
+            request.session['is_authenticated'] = True
+            request.session['username'] = username
+            return redirect('infolist:list-tayangan')
         else:
-            # Invalid login credentials, return to login page with an error message
-            print("error")
             messages.error(request, 'Invalid username or password')
-            return render(request, 'login.html', {'error': 'Invalid username or password'})
+            return redirect('authentication:login')
     else:
         return render(request, 'login.html')
 
@@ -30,17 +27,22 @@ def login_view(request ):
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
-        username = request.POST['username']
-        password2 = request.POST['password2']
-        country = request.POST['country']
         if form.is_valid():
-            print(country)
-            user = Pengguna(username=username, password=password2, country=country)
-            user.save()
-            form.save()
-            return redirect('authentication:login')
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password2']
+            country = request.POST['country']
+            try:
+                register_user(username, password, country)
+                messages.success(request, 'User registered successfully!')
+                return redirect('authentication:login')
+            except PsycopgError as e:
+                error_message = str(e)
+                # Username checking trigger
+                if "Username already exists" in error_message:
+                    messages.error(request, 'Username already exists. Please choose a different username.')
+                else:
+                    messages.error(request, f'Error registering user: {error_message}')
         else:
-            print(form.errors)
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"- {error}")
@@ -48,8 +50,8 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
 
-
 def logout_user(request):
     logout(request)
+    request.session['is_authenticated'] = False
     return redirect('main:show_main')
 

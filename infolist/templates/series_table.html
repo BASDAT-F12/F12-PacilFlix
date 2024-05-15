@@ -8,7 +8,7 @@
                 <th>Sinopsis Trailer</th>
                 <th>URL Trailer</th>
                 <th>Tanggal rilis trailer</th>
-                {% if user.is_authenticated %}
+                {% if request.session.is_authenticated %}
                 <th>Tayangan</th>
                 {% endif %}
             </tr>
@@ -19,7 +19,7 @@
                 <td>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</td>
                 <td><a href="https://www.pacilflix.com/trailer/?id=88ed18bf-74ee-530e-a9bc-5e107017dea1">Link Trailer</a></td>
                 <td>2024-03-06</td>
-                {% if user.is_authenticated %}
+                {% if request.session.is_authenticated %}
                 <td><a href="{% url 'infolist:detail_tayangan_series' %}" class="btn btn-primary">Tonton</a></td>
                 {% endif %}
             </tr>
