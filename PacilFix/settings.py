@@ -95,7 +95,7 @@ DATABASES = {
     ### Local Farrel
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME' : 'postgres',
+    #     'NAME' : 'pacilflix',
     #     'USER' : 'postgres',
     #     'PASSWORD' : 'noovader1',
     #     'HOST' : 'localhost',

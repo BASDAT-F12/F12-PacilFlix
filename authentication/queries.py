@@ -9,6 +9,13 @@ def create_connection():
         # user="postgres",
         # password="VeryVerySecret",
         # host="localhost"
+        
+        #local farrel
+        # dbname="paciflix",
+        # user = "postgres",
+        # password = "noovader1",
+        # host="localhost",
+        # port="5432"
 
         # database deployment
         dbname="postgres",
