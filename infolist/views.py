@@ -15,3 +15,9 @@ def detail_tayangan_series(request):
     
 def detail_tayangan_episode(request):
     return render(request, 'detail-tayangan-episode.html')
+
+def show_contributors(request):
+    # Random order
+    return render(request, 'daftar-kontributor.html',{
+        'contributors': ""
+    })

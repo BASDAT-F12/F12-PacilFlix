@@ -48,8 +48,7 @@ INSTALLED_APPS = [
     'main',
     'authentication',
     'infolist',
-    'user',
-    'contributors'
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -96,7 +95,7 @@ DATABASES = {
     ### Local Farrel
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME' : 'farrel.sheva',
+    #     'NAME' : 'postgres',
     #     'USER' : 'postgres',
     #     'PASSWORD' : 'noovader1',
     #     'HOST' : 'localhost',
