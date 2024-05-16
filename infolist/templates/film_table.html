@@ -5,12 +5,7 @@
         <thead>
             <tr>
                 <th>Judul</th>
-                {% if not request.session.is_authenticated %}
-                    <th>Sinopsis Trailer</th>
-                {% endif %}
-                {% if request.session.is_authenticated %}
-                    <th>Sinopsis</th>
-                {% endif %}
+                <th>Sinopsis Trailer</th>
                 <th>URL Trailer</th>
                 <th>Tanggal rilis trailer</th>
                 {% if request.session.is_authenticated %}
@@ -22,12 +17,7 @@
         {% for movie in movies %}
             <tr>
                 <td>{{ movie.judul }}</td>
-                {% if not request.session.is_authenticated %}
-                    <td>{{ movie.sinopsis_trailer }}</td>
-                {% endif %}
-                {% if request.session.is_authenticated %}
-                    <td>{{ movie.sinopsis }}</td>
-                {% endif %}
+                <td>{{ movie.sinopsis_trailer }}</td>
                 <td><a href="{{ movie.trailer_url }}">Link Trailer</a></td>
                 <td>{{ movie.release_date_trailer }}</td>
                 {% if request.session.is_authenticated %}
