@@ -5,11 +5,11 @@ from psycopg2 import sql
 
 def get_db_connection():
     connection = psycopg2.connect(
-        dbname="pacilflix",
-        user="postgres",
-        password = "noovader1",
-        host="localhost",
-        port="5432"
+        # dbname="pacilflix",
+        # user="postgres",
+        # password = "noovader1",
+        # host="localhost",
+        # port="5432"
         # local vinka
         # dbname="vinka.alrezky",
         # user="postgres",
@@ -17,11 +17,11 @@ def get_db_connection():
         # host="localhost",
         # port="5432"
         # database deployment
-        # dbname="postgres",
-        # user="postgres.witvydzeryxcceqwiqhn",
-        # password="FasilkomPacil22",
-        # host="aws-0-ap-southeast-1.pooler.supabase.com",
-        # port="5432"
+        dbname="postgres",
+        user="postgres.witvydzeryxcceqwiqhn",
+        password="FasilkomPacil22",
+        host="aws-0-ap-southeast-1.pooler.supabase.com",
+        port="5432"
     )
     return connection
 
@@ -251,9 +251,9 @@ def get_movie_data(id):
         cur.execute(select_query, (id,))
         film = cur.fetchone()
         if film:
-            genres = film[12].split(',') 
-            penulis_skenario = film[9].split(',')
-            pemain = film[11].split(',')
+            genres = film[12].split(',') if film[12] else []
+            penulis_skenario = film[9].split(',') if film[9] else []
+            pemain = film[11].split(',') if film[11] else []
             return {
                 'id_tayangan': str(film[0]),
                 'judul': film[1],
@@ -299,7 +299,7 @@ def get_search_result(query):
     try:
         cur.execute(select_query)
         tayangans = cur.fetchall()
-        return [{'id': tayangan[0], 'judul': tayangan[1], 'sinopsis_trailer': tayangan[2], 'url_video_trailer': tayangan[3], 'release_date_trailer': tayangan[4]} for tayangan in tayangans]
+        return [{'id': str(tayangan[0]), 'judul': tayangan[1], 'sinopsis_trailer': tayangan[2], 'url_video_trailer': tayangan[3], 'release_date_trailer': tayangan[4]} for tayangan in tayangans]
     except psycopg2.Error as e:
         conn.rollback()
         raise e
