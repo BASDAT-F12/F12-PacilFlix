@@ -12,7 +12,7 @@ def create_connection():
         # port="5432"
         
         #local farrel
-        # dbname="paciflix",
+        # dbname="pacilflix",
         # user = "postgres",
         # password = "noovader1",
         # host="localhost",
