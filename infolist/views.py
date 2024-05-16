@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404,render
-from infolist.queries import get_all_movies, get_all_series
+from infolist.queries import get_all_movies, get_all_series, get_search_result
 
 def list_tayangan(request):
     movies = get_all_movies()
@@ -13,7 +13,14 @@ def list_tayangan(request):
 
     
 def search_list(request):
-    return render(request, 'search-tayangan.html')
+    query = request.GET.get('q', '')
+    if query:
+        results = get_search_result(query)
+    else:
+        results = []
+    return render(request, 'search-tayangan.html', {
+        'results': results,
+    })
 
 def detail_tayangan_film(request):
     return render(request, 'detail-tayangan-film.html')
