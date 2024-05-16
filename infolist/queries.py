@@ -5,11 +5,11 @@ from psycopg2 import sql
 
 def get_db_connection():
     connection = psycopg2.connect(
-        #     dbname="pacilflix",
-        #     user="postgres",
-        #     password = "noovader1",
-        #     host="localhost",
-        #     port="5432")
+        dbname="pacilflix",
+        user="postgres",
+        password = "noovader1",
+        host="localhost",
+        port="5432"
         # local vinka
         # dbname="vinka.alrezky",
         # user="postgres",
@@ -17,11 +17,11 @@ def get_db_connection():
         # host="localhost",
         # port="5432"
         # database deployment
-        dbname="postgres",
-        user="postgres.witvydzeryxcceqwiqhn",
-        password="FasilkomPacil22",
-        host="aws-0-ap-southeast-1.pooler.supabase.com",
-        port="5432"
+        # dbname="postgres",
+        # user="postgres.witvydzeryxcceqwiqhn",
+        # password="FasilkomPacil22",
+        # host="aws-0-ap-southeast-1.pooler.supabase.com",
+        # port="5432"
     )
     return connection
 
@@ -126,7 +126,6 @@ def get_top10_tayangan_global():
         cur.close()
         conn.close()
 
-
 def get_all_movies():
     schema = "pacilflix"
     select_query = sql.SQL(
@@ -176,8 +175,108 @@ def get_all_series():
 
 ### DETAIL TAYANGAN
 
-def get_detail_movie(id):
-    pass
+def get_movie_data(id):
+    schema = "pacilflix"
+    select_query = sql.SQL(
+        """ SELECT 
+            t.id, 
+            t.judul, 
+            t.sinopsis, 
+            t.asal_negara, 
+            f.url_video_film, 
+            f.release_date_film, 
+            f.durasi_film,
+            AVG(u.rating) AS average_rating,
+            COUNT(DISTINCT CASE 
+                WHEN EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) >= 0.7 * f.durasi_film * 60 
+                AND rn.start_date_time >= NOW() - INTERVAL '7 days' 
+                THEN rn.username 
+                END) AS total_view_count,
+            STRING_AGG(DISTINCT c1.nama, ', ') AS penulis_skenario,
+            STRING_AGG(DISTINCT c2.nama, ', ') AS sutradara,
+            STRING_AGG(DISTINCT c3.nama, ', ') AS pemain,
+            STRING_AGG(DISTINCT gt.genre, ', ') AS genre
+            FROM
+                {}.{} t
+            LEFT JOIN
+                {}.{} f ON t.id = f.id_tayangan
+            LEFT JOIN
+                {}.{} u ON t.id = u.id_tayangan
+            LEFT JOIN
+                {}.{} rn ON t.id = rn.id_tayangan
+            LEFT JOIN
+                {}.{} mst ON t.id = mst.id_tayangan
+            LEFT JOIN
+                {}.{} ps ON mst.id_penulis_skenario = ps.id
+            LEFT JOIN
+                {}.{} c1 ON ps.id = c1.id
+            LEFT JOIN
+                {}.{} prt ON t.id = prt.id_tayangan
+            LEFT JOIN
+                {}.{} s ON t.id_sutradara = s.id
+            LEFT JOIN
+                {}.{} c2 ON s.id = c2.id
+            LEFT JOIN
+                {}.{} mtt ON t.id = mtt.id_tayangan
+            LEFT JOIN
+                {}.{} p ON mtt.id_pemain = p.id
+            LEFT JOIN
+                {}.{} c3 ON p.id = c3.id
+            LEFT JOIN 
+                {}.{} gt ON t.id = gt.id_tayangan
+            WHERE
+                t.id = %s
+            GROUP BY
+                t.id, t.asal_negara, f.url_video_film, f.release_date_film, f.durasi_film;
+        """).format(
+            sql.Identifier(schema), sql.Identifier('tayangan'),
+            sql.Identifier(schema), sql.Identifier('film'),
+            sql.Identifier(schema), sql.Identifier('ulasan'),
+            sql.Identifier(schema), sql.Identifier('riwayat_nonton'),
+            sql.Identifier(schema), sql.Identifier('menulis_skenario_tayangan'),
+            sql.Identifier(schema), sql.Identifier('penulis_skenario'),
+            sql.Identifier(schema), sql.Identifier('contributors'),
+            sql.Identifier(schema), sql.Identifier('persetujuan'),
+            sql.Identifier(schema), sql.Identifier('sutradara'),
+            sql.Identifier(schema), sql.Identifier('contributors'),
+            sql.Identifier(schema), sql.Identifier('memainkan_tayangan'),
+            sql.Identifier(schema), sql.Identifier('pemain'),
+            sql.Identifier(schema), sql.Identifier('contributors'),
+            sql.Identifier(schema), sql.Identifier('genre_tayangan')
+     )
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(select_query, (id,))
+        film = cur.fetchone()
+        if film:
+            genres = film[12].split(',') 
+            penulis_skenario = film[9].split(',')
+            pemain = film[11].split(',')
+            return {
+                'id_tayangan': str(film[0]),
+                'judul': film[1],
+                'sinopsis': film[2],
+                'asal_negara': film[3],
+                'url_video_film': film[4],
+                'release_date_film': film[5],
+                'durasi_film': film[6],
+                'average_rating': film[7],
+                'total_view_count': film[8],
+                'penulis_skenario': penulis_skenario,
+                'sutradara': film[10],
+                'pemain': pemain,
+                'genres': genres
+            }
+        else:
+            return None
+    except psycopg2.Error as e:
+        conn.rollback()
+        raise e
+    finally:
+        cur.close()
+        conn.close()
 
 ### PENCARIAN
 
@@ -201,46 +300,6 @@ def get_search_result(query):
         cur.execute(select_query)
         tayangans = cur.fetchall()
         return [{'id': tayangan[0], 'judul': tayangan[1], 'sinopsis_trailer': tayangan[2], 'url_video_trailer': tayangan[3], 'release_date_trailer': tayangan[4]} for tayangan in tayangans]
-    except psycopg2.Error as e:
-        conn.rollback()
-        raise e
-    finally:
-        cur.close()
-        conn.close()
-
-def get_movie_data(id):
-    schema = "pacilflix"
-    select_query = sql.SQL(
-        """ SELECT 
-                t.id, t.judul, t.sinopsis, f.url_video_film, f.release_date_film,
-                f.durasi_film
-            FROM
-                {}.{} t
-            LEFT JOIN
-                {}.{} f ON t.id = f.id_tayangan
-            WHERE
-                t.id = %s;
-        """).format(
-        sql.Identifier(schema), sql.Identifier("tayangan"),
-        sql.Identifier(schema), sql.Identifier("film")
-    )
-
-    conn = get_db_connection()
-    cur = conn.cursor()
-    try:
-        cur.execute(select_query, (id,))
-        film = cur.fetchone()
-        if film:
-            return {
-                'id_tayangan': str(film[0]),
-                'judul': film[1],
-                'sinopsis': film[2],
-                'url_video_film': film[3],
-                'release_date_film': film[4],
-                'durasi_film': film[5],
-            }
-        else:
-            return None
     except psycopg2.Error as e:
         conn.rollback()
         raise e

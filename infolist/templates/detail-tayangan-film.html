@@ -12,37 +12,40 @@
     <button class="btn btn-primary" href="">Download</button>
     <button class="btn btn-primary" href="">Favorite</button>
 
-    <p>Total View: 30000</p>
-    <p>Rating: 4.5</p>
+    <p>Total View: {{movie_data.total_view_count}} </p>
+    <p>Rating: {{ movie_data.average_rating }}</p>
     <p>Sinopsis: {{ movie_data.sinopsis }}</p>
     <p>Durasi Film: {{ movie_data.durasi_film }}</p>
     <p>URL Film: {{ movie_data.url_video_film }}</p>
+
     <p>Genre:</p>
     <ul>
-        <li>Mystery</li>
-        <li>Horror</li>
-        <li>Thriller</li>
-    </ul>
+        {% for genre in movie_data.genres %}
+        <li>{{ genre }}</li>
+        {% endfor %}
+    <ul>
+        
 
-    <p>Asal Negara: </p>
+    <p>Asal Negara: {{ movie_data.asal_negara }} </p>
 
     <!-- Cast -->
     <p>Pemain:</p>
     <ul>
-        <li>Kathleen MacKilroe</li>
-        <li>Chandal Alibone</li>
-        <li>Whit Dicker</li>
+        {% for pemain in movie_data.pemain %}
+        <li>{{pemain}}</li>
+        {% endfor %}
     </ul>
 
     <!-- Screenplay Writers -->
     <p>Penulis:</p>
     <ul>
-        <li>Gerry Woolley</li>
-        <li>Delmar Jobbins</li>
+        {% for penulis in movie_data.penulis_skenario  %}
+        <li>{{penulis}}</li>
+        {% endfor %}
     </ul>
 
     <!-- Director -->
-    <p>Sutradara: Meryl Kellet</p>
+    <p>Sutradara: {{movie_data.sutradara}}</p>
 
     {% include "ulasan-tayangan.html" %}
 </div>
