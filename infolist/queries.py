@@ -2,7 +2,7 @@ import psycopg2
 from psycopg2 import sql
 
 def get_db_connection():
-    # connection = psycopg2.connect(
+    connection = psycopg2.connect(
     #     dbname="pacilflix",
     #     user="postgres",
     #     password = "noovader1",
@@ -14,13 +14,13 @@ def get_db_connection():
         # password="VeryVerySecret",
         # host="localhost",
         # port="5432"
-    #)
     # database deployment
-    connection = psycopg2.connect(dbname="postgres",
+        dbname="postgres",
         user="postgres.witvydzeryxcceqwiqhn",
         password="FasilkomPacil22",
         host="aws-0-ap-southeast-1.pooler.supabase.com",
-        port="5432")
+        port="5432"
+    )
     return connection
 
 
@@ -186,10 +186,11 @@ def get_search_result(query):
             FROM
                 {}.{}
             WHERE
-                LOWER(judul) LIKE LOWER('%{}%');
+                LOWER(judul) LIKE LOWER({});
             """)\
             .format(
             sql.Identifier(schema), sql.Identifier("tayangan"),
+            sql.Literal('%'+ query + '%')
         )
     conn = get_db_connection()
     cur = conn.cursor()
