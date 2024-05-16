@@ -1,21 +1,32 @@
 from django.shortcuts import get_object_or_404,render
-from infolist.queries import get_all_movies, get_all_series, get_top10_tayangan_global
+from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data
 
 def list_tayangan(request):
     movies = get_all_movies()
-    # series = get_all_series()
+    series = get_all_series()
     # top10_global = get_top10_tayangan_global()
     # top10_lokal = get_top10_tayangan_lokal('Indonesia')
     return render(request, 'daftar-tayangan.html', {
         'movies': movies,
+        'series': series,
     })
 
     
 def search_list(request):
-    return render(request, 'search-tayangan.html')
+    query = request.GET.get('q', '')
+    if query:
+        results = get_search_result(query)
+    else:
+        results = []
+    return render(request, 'search-tayangan.html', {
+        'results': results,
+    })
 
-def detail_tayangan_film(request):
-    return render(request, 'detail-tayangan-film.html')
+def detail_tayangan_film(request, id):
+    movie_data = get_movie_data(id)
+    return render(request, 'detail-tayangan-film.html', {
+        'movie_data': movie_data,
+    })
 
 def detail_tayangan_series(request):
     return render(request, 'detail-tayangan-series.html')
