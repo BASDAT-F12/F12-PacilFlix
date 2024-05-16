@@ -7,22 +7,24 @@
 {% block content %}
 <div class="container mt-4">
     <h1>HALAMAN FILM</h1>
-    <h2> Judul: Crac</h2>
+    <h2> Judul: {{ movie_data.judul }}</h2>
     <button class="btn btn-primary" href="">Tonton</button>
     <button class="btn btn-primary" href="">Download</button>
     <button class="btn btn-primary" href="">Favorite</button>
 
     <p>Total View: 30000</p>
     <p>Rating: 4.5</p>
-    <p>Sinopsis: Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.</p>
-    <p>Durasi Film: 120 Menit</p>
-    <p>URL Film: https://www.example.com/film/crac</p>
+    <p>Sinopsis: {{ movie_data.sinopsis }}</p>
+    <p>Durasi Film: {{ movie_data.durasi_film }}</p>
+    <p>URL Film: {{ movie_data.url_video_film }}</p>
     <p>Genre:</p>
     <ul>
         <li>Mystery</li>
         <li>Horror</li>
         <li>Thriller</li>
     </ul>
+
+    <p>Asal Negara: </p>
 
     <!-- Cast -->
     <p>Pemain:</p>
