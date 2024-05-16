@@ -1,8 +1,15 @@
 from django.shortcuts import get_object_or_404,render
+from infolist.queries import get_all_movies, get_all_series, get_top10_tayangan_global
 
 def list_tayangan(request):
-    # Random order
-    return render(request, 'daftar-tayangan.html')
+    movies = get_all_movies()
+    # series = get_all_series()
+    # top10_global = get_top10_tayangan_global()
+    # top10_lokal = get_top10_tayangan_lokal('Indonesia')
+    return render(request, 'daftar-tayangan.html', {
+        'movies': movies,
+    })
+
     
 def search_list(request):
     return render(request, 'search-tayangan.html')

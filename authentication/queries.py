@@ -8,7 +8,8 @@ def create_connection():
         # dbname="vinka.alrezky",
         # user="postgres",
         # password="VeryVerySecret",
-        # host="localhost"
+        # host="localhost",
+        # port="5432"
         
         #local farrel
         # dbname="paciflix",

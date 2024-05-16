@@ -2,19 +2,25 @@ import psycopg2
 from psycopg2 import sql
 
 def get_db_connection():
-    connection = psycopg2.connect(
-        dbname="pacilflix",
-        user="postgres",
-        password = "noovader1",
-        host="localhost",
-        port="5432"
-    )
+    # connection = psycopg2.connect(
+    #     dbname="pacilflix",
+    #     user="postgres",
+    #     password = "noovader1",
+    #     host="localhost",
+    #     port="5432"
+        # local vinka
+        # dbname="vinka.alrezky",
+        # user="postgres",
+        # password="VeryVerySecret",
+        # host="localhost",
+        # port="5432"
+    #)
     # database deployment
-    # connection = psycopg2.connect(dbname="postgres",
-    #     user="postgres.witvydzeryxcceqwiqhn",
-    #     password="FasilkomPacil22",
-    #     host="aws-0-ap-southeast-1.pooler.supabase.com",
-    #     port="5432")
+    connection = psycopg2.connect(dbname="postgres",
+        user="postgres.witvydzeryxcceqwiqhn",
+        password="FasilkomPacil22",
+        host="aws-0-ap-southeast-1.pooler.supabase.com",
+        port="5432")
     return connection
 
 
@@ -207,7 +213,7 @@ def get_top10_tayangan_lokal(country):
 def get_all_movies():
     schema = "pacilflix"
     select_query = sql.SQL(
-        """ SELECT t.judul, t.sinopsis_trailer, t.url_video trailer , t.release_date_trailer
+        """ SELECT t.id, t.judul, t.sinopsis, t.sinopsis_trailer, t.url_video_trailer , t.release_date_trailer
             FROM {}.{} t
             JOIN {}.{} f ON t.id = f.id_tayangan""")\
         .format(
@@ -219,7 +225,7 @@ def get_all_movies():
     try:
         cur.execute(select_query)
         films = cur.fetchall()
-        return [dict(films) for film in films]
+        return [{'id': film[0],'judul': film[1], 'sinopsis': film[2], 'sinopsis_trailer': film[3], 'url_video_trailer': film[4], 'release_date_trailer': film[5]} for film in films]
     except psycopg2.Error as e:
         conn.rollback()
         raise e
