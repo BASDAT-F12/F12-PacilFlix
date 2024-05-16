@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404,render
-from infolist.queries import get_all_movies, get_all_series, get_search_result
+from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data
 
 def list_tayangan(request):
     movies = get_all_movies()
@@ -22,8 +22,11 @@ def search_list(request):
         'results': results,
     })
 
-def detail_tayangan_film(request):
-    return render(request, 'detail-tayangan-film.html')
+def detail_tayangan_film(request, id):
+    movie_data = get_movie_data(id)
+    return render(request, 'detail-tayangan-film.html', {
+        'movie_data': movie_data,
+    })
 
 def detail_tayangan_series(request):
     return render(request, 'detail-tayangan-series.html')

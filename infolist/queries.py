@@ -1,26 +1,28 @@
+import uuid
+
 import psycopg2
 from psycopg2 import sql
 
 def get_db_connection():
-    # connection = psycopg2.connect(
-    #     dbname="pacilflix",
-    #     user="postgres",
-    #     password = "noovader1",
-    #     host="localhost",
-    #     port="5432")
+    connection = psycopg2.connect(
+        #     dbname="pacilflix",
+        #     user="postgres",
+        #     password = "noovader1",
+        #     host="localhost",
+        #     port="5432")
         # local vinka
         # dbname="vinka.alrezky",
         # user="postgres",
         # password="VeryVerySecret",
         # host="localhost",
         # port="5432"
-    #)
-    # database deployment
-    connection = psycopg2.connect(dbname="postgres",
+        # database deployment
+        dbname="postgres",
         user="postgres.witvydzeryxcceqwiqhn",
         password="FasilkomPacil22",
         host="aws-0-ap-southeast-1.pooler.supabase.com",
-        port="5432")
+        port="5432"
+    )
     return connection
 
 
@@ -40,7 +42,7 @@ def execute_query(query, params=None):
         cur.close()
         conn.close()
 
-### DAFTAR TAYANGAN 
+### DAFTAR TAYANGAN
 def get_top10_tayangan_global():
     schema = "pacilflix"
     select_query = sql.SQL("""
@@ -100,8 +102,8 @@ def get_top10_tayangan_global():
 	ORDER BY
 		v.view_count DESC;
     LIMIT 10
-	""")\
-    .format(
+	""") \
+        .format(
         sql.Identifier(schema),sql.Identifier("riwayat_nonton"),
         sql.Identifier(schema),sql.Identifier("film"),
         sql.Identifier(schema),sql.Identifier("episode"),
@@ -110,7 +112,7 @@ def get_top10_tayangan_global():
         sql.Identifier(schema),sql.Identifier("film"),
         sql.Identifier(schema),sql.Identifier("episode")
     )
-    
+
     conn = get_db_connection()
     cur = conn.cursor()
     try:
@@ -123,47 +125,48 @@ def get_top10_tayangan_global():
     finally:
         cur.close()
         conn.close()
-    
+
+
 def get_all_movies():
     schema = "pacilflix"
     select_query = sql.SQL(
-        """ SELECT t.id, t.judul, t.sinopsis_trailer, t.url_video_trailer , t.release_date_trailer
+        """ SELECT t.id, t.judul, t.sinopsis_trailer, t.url_video_trailer, t.release_date_trailer
             FROM {}.{} t
-            JOIN {}.{} f ON t.id = f.id_tayangan""")\
+            JOIN {}.{} f ON t.id = f.id_tayangan""") \
         .format(
         sql.Identifier(schema), sql.Identifier("tayangan"),
         sql.Identifier(schema), sql.Identifier("film")
-        )
+    )
     conn = get_db_connection()
     cur = conn.cursor()
     try:
         cur.execute(select_query)
         films = cur.fetchall()
-        return [{'id': film[0],'judul': film[1], 'sinopsis_trailer': film[2], 'url_video_trailer': film[3], 'release_date_trailer': film[4]} for film in films]
+        return [{'id': str(film[0]), 'judul': film[1], 'sinopsis_trailer': film[2], 'url_video_trailer': film[3], 'release_date_trailer': film[4]} for film in films]
     except psycopg2.Error as e:
         conn.rollback()
         raise e
     finally:
         cur.close()
         conn.close()
-        
+
 def get_all_series():
     schema = "pacilflix"
     select_query = sql.SQL(
         """ SELECT t.id, t.judul, t.sinopsis_trailer, t.url_video_trailer, t.release_date_trailer
             FROM {}.{} t
             JOIN {}.{} s ON t.id = s.id_tayangan
-            """)\
-            .format(
+            """) \
+        .format(
         sql.Identifier(schema), sql.Identifier("tayangan"),
         sql.Identifier(schema), sql.Identifier("series"),
-        )
+    )
     conn = get_db_connection()
     cur = conn.cursor()
     try:
         cur.execute(select_query)
         res = cur.fetchall()
-        return [{'id': row[0], 'judul': row[1], 'sinopsis_trailer': row[2], 'url_video_trailer': row[3], 'release_date_trailer': row[4]} for row in res]
+        return [{'id': str(row[0]), 'judul': row[1], 'sinopsis_trailer': row[2], 'url_video_trailer': row[3], 'release_date_trailer': row[4]} for row in res]
     except psycopg2.Error as e:
         conn.rollback()
         raise e
@@ -178,7 +181,7 @@ def get_detail_movie(id):
 
 ### PENCARIAN
 
-def get_search_result(query): 
+def get_search_result(query):
     schema = "pacilflix"
     select_query = sql.SQL(
         """ SELECT 
@@ -186,17 +189,58 @@ def get_search_result(query):
             FROM
                 {}.{}
             WHERE
-                LOWER(judul) LIKE LOWER('%{}%');
-            """)\
-            .format(
-            sql.Identifier(schema), sql.Identifier("tayangan"),
-        )
+                LOWER(judul) LIKE LOWER({});
+            """) \
+        .format(
+        sql.Identifier(schema), sql.Identifier("tayangan"),
+        sql.Literal('%'+ query + '%')
+    )
     conn = get_db_connection()
     cur = conn.cursor()
     try:
         cur.execute(select_query)
         tayangans = cur.fetchall()
         return [{'id': tayangan[0], 'judul': tayangan[1], 'sinopsis_trailer': tayangan[2], 'url_video_trailer': tayangan[3], 'release_date_trailer': tayangan[4]} for tayangan in tayangans]
+    except psycopg2.Error as e:
+        conn.rollback()
+        raise e
+    finally:
+        cur.close()
+        conn.close()
+
+def get_movie_data(id):
+    schema = "pacilflix"
+    select_query = sql.SQL(
+        """ SELECT 
+                t.id, t.judul, t.sinopsis, f.url_video_film, f.release_date_film,
+                f.durasi_film
+            FROM
+                {}.{} t
+            LEFT JOIN
+                {}.{} f ON t.id = f.id_tayangan
+            WHERE
+                t.id = %s;
+        """).format(
+        sql.Identifier(schema), sql.Identifier("tayangan"),
+        sql.Identifier(schema), sql.Identifier("film")
+    )
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(select_query, (id,))
+        film = cur.fetchone()
+        if film:
+            return {
+                'id_tayangan': str(film[0]),
+                'judul': film[1],
+                'sinopsis': film[2],
+                'url_video_film': film[3],
+                'release_date_film': film[4],
+                'durasi_film': film[5],
+            }
+        else:
+            return None
     except psycopg2.Error as e:
         conn.rollback()
         raise e

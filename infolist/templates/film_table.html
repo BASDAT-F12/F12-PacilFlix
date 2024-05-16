@@ -23,7 +23,7 @@
                 <td><a href="{{ movie.url_video_trailer }}">Link Trailer</a></td>
                 <td>{{ movie.release_date_trailer }}</td>
                 {% if request.session.is_authenticated %}
-                    <td><a href="{% url 'infolist:detail_tayangan_film' %}" class="btn btn-primary">Tonton</a></td>
+                    <td><a href="../../infolist/detail-tayangan-film/{{ movie.id }}" class="btn btn-primary">Tonton</a></td>
                 {% endif %}
             </tr>
         {% endfor %}
