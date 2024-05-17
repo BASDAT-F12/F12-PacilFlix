@@ -278,6 +278,9 @@ def get_movie_data(id):
         cur.close()
         conn.close()
 
+
+def get_series_data(id):
+    pass 
 ### PENCARIAN
 
 def get_search_result(query):
