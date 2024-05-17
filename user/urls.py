@@ -5,5 +5,5 @@ app_name = 'user'
 
 urlpatterns = [
     path('daftar-langganan/', list_package, name='daftar-langganan'),
-    path('halaman-beli/', buy_page, name='halaman-beli')
+    path('halaman-beli/<str:id>/', buy_page, name='halaman-beli')
 ]
