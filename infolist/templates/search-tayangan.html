@@ -46,7 +46,11 @@
                         <td><a href={{ result.url_video_trailer }}>Link Trailer</a></td>
                         <td>{{result.release_date_trailer}}</td>
                         {% if request.session.is_authenticated %}
-                            <td><a href="../../infolist/detail-tayangan-film/{{ result.id }}" class="btn btn-primary">Tonton</a></td>
+                            {% if result.type == 'film' %}
+                                <td><a href="../../infolist/detail-tayangan-film/{{ result.id }}" class="btn btn-primary">Tonton</a></td>
+                            {% else %}
+                                <td><a href="../../infolist/detail-tayangan-series/{{ result.id }}" class="btn btn-primary">Tonton</a></td>
+                            {% endif %}
                         {% endif %}
                     </tr>
                     {% endfor %}

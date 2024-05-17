@@ -479,28 +479,70 @@ def store_viewing_history(username, id_tayangan, start_date_time, end_date_time)
 
 def get_search_result(query):
     schema = "pacilflix"
-    select_query = sql.SQL(
-        """ SELECT 
-                id, judul, sinopsis_trailer, url_video_trailer, release_date_trailer
-            FROM
-                {}.{}
-            WHERE
-                LOWER(judul) LIKE LOWER({});
-            """) \
-        .format(
-        sql.Identifier(schema), sql.Identifier("tayangan"),
-        sql.Literal('%'+ query + '%')
+    search_pattern = '%' + query.lower() + '%'
+    
+    film_query = sql.SQL(
+        """SELECT 
+                f.id_tayangan AS id, 
+                t.judul, 
+                t.sinopsis_trailer, 
+                t.url_video_trailer, 
+                t.release_date_trailer,
+                'film' AS type
+            FROM 
+                {}.{} f
+            JOIN 
+                {}.{} t ON f.id_tayangan = t.id
+            WHERE 
+                LOWER(t.judul) LIKE %s"""
+    ).format(
+        sql.Identifier(schema), sql.Identifier("film"),
+        sql.Identifier(schema), sql.Identifier("tayangan")
     )
+    
+    series_query = sql.SQL(
+        """SELECT 
+                s.id_tayangan AS id, 
+                t.judul, 
+                t.sinopsis_trailer, 
+                t.url_video_trailer, 
+                t.release_date_trailer,
+                'series' AS type
+            FROM 
+                {}.{} s
+            JOIN 
+                {}.{} t ON s.id_tayangan = t.id
+            WHERE 
+                LOWER(t.judul) LIKE %s"""
+    ).format(
+        sql.Identifier(schema), sql.Identifier("series"),
+        sql.Identifier(schema), sql.Identifier("tayangan")
+    )
+    
     conn = get_db_connection()
     cur = conn.cursor()
     try:
-        cur.execute(select_query)
-        tayangans = cur.fetchall()
-        return [{'id': str(tayangan[0]), 
-                 'judul': tayangan[1], 
-                 'sinopsis_trailer': tayangan[2], 
-                 'url_video_trailer': tayangan[3], 
-                 'release_date_trailer': tayangan[4]} for tayangan in tayangans]
+        # Execute film query
+        cur.execute(film_query, (search_pattern,))
+        films = cur.fetchall()
+        
+        # Execute series query
+        cur.execute(series_query, (search_pattern,))
+        series = cur.fetchall()
+        
+        # Combine results and format
+        results = []
+        for tayangan in films + series:
+            results.append({
+                'id': str(tayangan[0]),
+                'judul': tayangan[1],
+                'sinopsis_trailer': tayangan[2],
+                'url_video_trailer': tayangan[3],
+                'release_date_trailer': tayangan[4],
+                'type': tayangan[5]
+            })
+        
+        return results
     except psycopg2.Error as e:
         conn.rollback()
         raise e
