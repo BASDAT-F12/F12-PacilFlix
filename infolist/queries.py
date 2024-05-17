@@ -187,11 +187,7 @@ def get_movie_data(id):
             f.release_date_film, 
             f.durasi_film,
             AVG(u.rating) AS average_rating,
-            COUNT(DISTINCT CASE 
-                WHEN EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) >= 0.7 * f.durasi_film * 60 
-                AND rn.start_date_time >= NOW() - INTERVAL '7 days' 
-                THEN rn.username 
-                END) AS total_view_count,
+            COUNT(DISTINCT rn.username) AS total_view_count,
             STRING_AGG(DISTINCT c1.nama, ', ') AS penulis_skenario,
             STRING_AGG(DISTINCT c2.nama, ', ') AS sutradara,
             STRING_AGG(DISTINCT c3.nama, ', ') AS pemain,
@@ -411,6 +407,13 @@ def get_search_result(query):
 
 ### ULASAN
 
+def insert_review(id_tayangan, username, rating, review):
+    schema = "pacilflix"
+
+def get_reviews(id_tayangan):
+    schema = "pacilflix"
+    
+    
 
 
 ### BAGIAN KONTRIBUTOR
