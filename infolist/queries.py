@@ -25,7 +25,6 @@ def get_db_connection():
     )
     return connection
 
-
 def execute_query(query, params=None):
     conn = get_db_connection()
     cur = conn.cursor()
@@ -286,7 +285,6 @@ def get_movie_data(id):
         cur.close()
         conn.close()
 
-
 def get_series_data(id):
     schema = "pacilflix"
     select_query = sql.SQL("""
@@ -517,7 +515,37 @@ def insert_review(id_tayangan, username, rating, review):
 
 def get_reviews(id_tayangan):
     schema = "pacilflix"
-    select = sql.SQL(""" """)
+    select = sql.SQL("""
+    SELECT
+        u.id_tayangan, u.username, u.rating, u.deskripsi, u.timestamp
+    FROM
+        {}.{} u
+    WHERE
+        u.id_tayangan = %s
+    ORDER BY
+        u.timestamp; 
+    """).format(
+        sql.Identifier(schema), sql.Identifier("ulasan")
+    )
+    conn = get_db_connection()
+    cur = conn.cursor()
+    
+    try: 
+        cur.execute(select, (id_tayangan,))
+        reviews = cur.fetchall()
+        return [{
+            'id_tayangan': str(review[0]),
+            'username': review[1],
+            'rating': review[2],
+            'deskripsi': review[3],
+            'timestamp': review[4]
+        } for review in reviews]
+    except psycopg2.Error as e:
+        conn.rollback()
+        raise e
+    finally:
+        cur.close()
+        conn.close()
 
 ### BAGIAN KONTRIBUTOR
 

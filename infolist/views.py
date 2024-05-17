@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404,render
 from django.http import JsonResponse
-from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data, get_all_contributors, get_series_data, get_episode_data, get_top10_tayangan_global
+from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data, \
+                            get_all_contributors, get_series_data, get_episode_data, get_top10_tayangan_global,\
+                            get_reviews
 
 
 def list_tayangan(request):
@@ -27,14 +29,18 @@ def search_list(request):
 
 def detail_tayangan_film(request, id):
     movie_data = get_movie_data(id)
+    reviews = get_reviews(id)
     return render(request, 'detail-tayangan-film.html', {
         'movie_data': movie_data,
+        'reviews': reviews,
     })
 
 def detail_tayangan_series(request,id):
     series_data = get_series_data(id)
+    reviews = get_reviews(id)
     return render(request, 'detail-tayangan-series.html',{
         'series_data': series_data,
+        'reviews': reviews,
     })
     
 def detail_tayangan_episode(request,id,name):

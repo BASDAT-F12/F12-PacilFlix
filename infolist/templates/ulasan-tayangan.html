@@ -40,9 +40,9 @@
             <ul>
                 <li>
                     {% for review in reviews %}
-                    <h3></h3>
-                    <p>Rating: </p>
-                    <p>Review: </p>
+                    <h3>{{ review.username}} </h3>
+                    <p>Rating: {{ review.rating }} </p>
+                    <p>Review: {{ review.deskripsi }}</p>
                     {% endfor %}
                 </li>
             </ul>
