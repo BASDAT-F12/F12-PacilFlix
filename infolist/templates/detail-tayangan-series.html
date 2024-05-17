@@ -15,7 +15,7 @@
     <h3>Episodes</h3>
     <ul>
         {% for judul in series_data.episode_judul %}
-        <li><a href="{% url 'infolist:detail_tayangan_episode' series_data.id_tayangan judul|urlencode %}">Watch Episode {{forloop.counter}}- {{judul}} </a></li>
+        <li><a href="{% url 'infolist:detail_tayangan_episode' series_data.id_tayangan judul %}">Watch Episode {{forloop.counter}}- {{judul}} </a></li>
         {% endfor %}
     </ul>
 
