@@ -7,19 +7,19 @@
 {% block content %}
 <div class="container mt-4">
     <h1>HALAMAN SERIES</h1>
-    <h2> Judul: {{ series_data.id }}</h2>
-    <button class="btn btn-primary" href="">Tonton</button>
+    <h2> Judul: {{ series_data.judul }}</h2>
+    
     <button class="btn btn-primary" href="">Download</button>
     <button class="btn btn-primary" href="">Favorite</button>
 
     <h3>Episodes</h3>
     <ul>
-        {% for judul in series_data.episode_judu %}
-        <li><a href="{% url 'infolist:detail_tayangan_episode' %}">Watch Episode {{forloop.counter}}- {{judul}} </a></li>
+        {% for judul in series_data.episode_judul %}
+        <li><a href="{% url 'infolist:detail_tayangan_episode' series_data.id_tayangan judul|urlencode %}">Watch Episode {{forloop.counter}}- {{judul}} </a></li>
         {% endfor %}
     </ul>
 
-    <p>Total View: </p>
+    <p>Total Views: {{series.data }} </p>
     <p>Rating: {{series_data.average_rating}}</p>
     <p>Sinopsis: <br> {{series_data.sinopsis}}</p>
     <p>Genre:</p>

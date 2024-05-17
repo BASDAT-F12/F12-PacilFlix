@@ -371,7 +371,100 @@ def get_series_data(id):
     finally:
         cur.close()
         conn.close()
-                
+
+def get_episode_data(id, subtitle):
+    schema = "pacilflix"
+    select_query = sql.SQL("""
+    WITH specific_episode AS (
+        SELECT 
+            e.id_series,
+            e.sub_judul,
+            e.sinopsis,
+            e.durasi,
+            e.url_video,
+            e.release_date
+        FROM 
+            {}.{} e
+        WHERE
+            e.id_series = %s
+            AND e.sub_judul = %s
+    ),
+    other_episodes AS (
+        SELECT 
+            e.id_series,
+            STRING_AGG(e.sub_judul, ', ') AS other_sub_juduls
+        FROM 
+            {}.{} e
+        WHERE
+            e.id_series = %s
+            AND e.sub_judul != %s
+        GROUP BY
+            e.id_series
+    )
+    SELECT 
+        se.id_series,
+        t.judul AS series_judul,
+        se.sub_judul,
+        se.sinopsis,
+        se.durasi,
+        se.url_video,
+        se.release_date,
+        oe.other_sub_juduls
+    FROM 
+        specific_episode se
+    LEFT JOIN
+        other_episodes oe ON se.id_series = oe.id_series
+    LEFT JOIN
+        {}.{} t ON se.id_series = t.id;
+    """).format(
+        sql.Identifier(schema), sql.Identifier('episode'),
+        sql.Identifier(schema), sql.Identifier('episode'),
+        sql.Identifier(schema), sql.Identifier('tayangan')
+    )
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(select_query, (id, subtitle, id, subtitle))
+        episode = cur.fetchone()
+        if episode:
+            other_sub_juduls = episode[7].split(',') if episode[7] else []
+            return {
+                'id_series': str(episode[0]),
+                'series_judul': episode[1],
+                'sub_judul': episode[2],
+                'sinopsis': episode[3],
+                'durasi': episode[4],
+                'url_video': episode[5],
+                'release_date': episode[6],
+                'other_sub_juduls': other_sub_juduls
+            }
+        else:
+            return None
+    except psycopg2.Error as e:
+        conn.rollback()
+        raise e
+    finally:
+        cur.close()
+        conn.close()
+
+def store_viewing_history(username, id_tayangan, start_date_time, end_date_time):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        insert_query = sql.SQL(
+            """ INSERT INTO pacilflix.riwayat_nonton (username, id_tayangan, start_date_time, end_date_time)
+                VALUES (%s, %s, %s, %s);
+            """)
+        cur.execute(insert_query, (username, id_tayangan, start_date_time, end_date_time))
+        conn.commit()
+    except psycopg2.Error as e:
+        conn.rollback()
+        raise e
+    finally:
+        cur.close()
+        conn.close()
+
 ### PENCARIAN
 
 def get_search_result(query):
@@ -412,9 +505,6 @@ def insert_review(id_tayangan, username, rating, review):
 
 def get_reviews(id_tayangan):
     schema = "pacilflix"
-    
-    
-
 
 ### BAGIAN KONTRIBUTOR
 

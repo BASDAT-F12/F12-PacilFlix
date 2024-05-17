@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404,render
 from django.http import JsonResponse
-from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data, get_all_contributors, get_series_data
+from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data, get_all_contributors, get_series_data, get_episode_data
 
 
 def list_tayangan(request):
@@ -36,8 +36,11 @@ def detail_tayangan_series(request,id):
         'series_data': series_data,
     })
     
-def detail_tayangan_episode(request):
-    return render(request, 'detail-tayangan-episode.html')
+def detail_tayangan_episode(request,id,name):
+    episode_data = get_episode_data(id,name)
+    return render(request, 'detail-tayangan-episode.html', {
+        'episode_data': episode_data
+    })
 
 def show_contributors(request):
     contributors = get_all_contributors()
@@ -45,3 +48,5 @@ def show_contributors(request):
         'contributors': contributors
     })
 
+def input_review(request,id):
+    pass
