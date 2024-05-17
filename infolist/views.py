@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404,render
-from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data
+from django.http import JsonResponse
+from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data, get_all_contributors
+
 
 def list_tayangan(request):
     movies = get_all_movies()
@@ -35,7 +37,8 @@ def detail_tayangan_episode(request):
     return render(request, 'detail-tayangan-episode.html')
 
 def show_contributors(request):
-    # Random order
+    contributors = get_all_contributors()
     return render(request, 'daftar-kontributor.html',{
-        'contributors': ""
+        'contributors': contributors
     })
+

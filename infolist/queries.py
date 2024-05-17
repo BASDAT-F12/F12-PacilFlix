@@ -253,3 +253,52 @@ def get_movie_data(id):
 
 
 ### BAGIAN KONTRIBUTOR
+
+def get_all_contributors():
+    schema = "pacilflix"
+    select_query = sql.SQL(
+        """ SELECT c.id, c.nama, c.jenis_kelamin, c.kewarganegaraan,
+                    COALESCE(p.tipe, '') AS penulis_skenario,
+                    COALESCE(pe.tipe, '') AS pemain,
+                    COALESCE(s.tipe, '') AS sutradara
+            FROM {}.{} c
+            LEFT JOIN (
+                SELECT id, 'Penulis Skenario' AS tipe
+                FROM {}.{}
+            ) p ON c.id = p.id
+            LEFT JOIN (
+                SELECT id, 'Pemain' AS tipe
+                FROM {}.{}
+            ) pe ON c.id = pe.id
+            LEFT JOIN (
+                SELECT id, 'Sutradara' AS tipe
+                FROM {}.{}
+            ) s ON c.id = s.id
+        """).format(
+        sql.Identifier(schema), sql.Identifier("contributors"),
+        sql.Identifier(schema), sql.Identifier("penulis_skenario"),
+        sql.Identifier(schema), sql.Identifier("pemain"),
+        sql.Identifier(schema), sql.Identifier("sutradara")
+    )
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(select_query)
+        contributors = cur.fetchall()
+        return [{
+            'id': str(contributor[0]),
+            'nama': contributor[1],
+            'jenis_kelamin': 'Laki-laki' if contributor[2] == 0 else 'Perempuan',
+            'kewarganegaraan': contributor[3],
+            'tipe': ', '.join([contributor[i] for i in range(4, 7) if contributor[i]])
+        } for contributor in contributors]
+    except psycopg2.Error as e:
+        conn.rollback()
+        raise e
+    finally:
+        cur.close()
+        conn.close()
+
+
+
+
