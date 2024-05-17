@@ -10,6 +10,7 @@
             {% endif %}
             <form method="post" action="">
                 {% csrf_token %}
+                <input type="hidden" name="action" value="review">
                 <div class="form-group">
                     <label for="review-input">Your Review:</label>
                     <input type="text" class="form-control" id="review-input" name="review_text" required>
@@ -56,5 +57,4 @@
         </div>
     </div>
 </div>
-
-{% endblock  %}
+{% endblock %}
