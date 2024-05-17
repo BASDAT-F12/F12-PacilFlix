@@ -35,7 +35,7 @@
                 <td>2024-03-06</td>
                 <td>30K</td>
                 {% if request.session.is_authenticated %}
-                <td><a href="{% url 'infolist:detail_tayangan_series' %}" class="btn btn-primary">Tonton</a></td>
+                    <td><a href="../../infolist/detail-tayangan-series/{{ s.id }}" class="btn btn-primary">Tonton</a></td>
                 {% endif %}
             </tr>
         </tbody>
