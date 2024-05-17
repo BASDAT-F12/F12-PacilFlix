@@ -1,14 +1,15 @@
 from django.shortcuts import get_object_or_404,render
 from django.http import JsonResponse
-from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data, get_all_contributors, get_series_data, get_episode_data
+from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data, get_all_contributors, get_series_data, get_episode_data, get_top10_tayangan_global
 
 
 def list_tayangan(request):
     movies = get_all_movies()
     series = get_all_series()
-    # top10_global = get_top10_tayangan_global()
+    top10_global = get_top10_tayangan_global()
     # top10_lokal = get_top10_tayangan_lokal('Indonesia')
     return render(request, 'daftar-tayangan.html', {
+        'top10_global': top10_global,
         'movies': movies,
         'series': series,
     })

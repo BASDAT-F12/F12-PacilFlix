@@ -47,78 +47,90 @@ def get_top10_tayangan_global():
     schema = "pacilflix"
     select_query = sql.SQL("""
     WITH recent_views AS (
-		SELECT 
-			rn.id_tayangan,
-			rn.username,
-			rn.start_date_time,
-			rn.end_date_time,
-			COALESCE(f.durasi_film, e.durasi, 0) AS durasi,
-			EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 AS watched_minutes,
-			COALESCE(f.durasi_film, e.durasi, 0) * 0.7 AS threshold_minutes
-		FROM 
-			{}.{} rn
-		LEFT JOIN 
-			{}.{} f ON rn.id_tayangan = f.id_tayangan
-		LEFT JOIN 
-			{}.{} e ON rn.id_tayangan = e.id_series
-		LEFT JOIN 
-			{}.{} t ON rn.id_tayangan = t.id
-		WHERE 
-			rn.start_date_time >= NOW() - INTERVAL '7 days'
+        SELECT 
+            rn.id_tayangan,
+            rn.username,
+            rn.start_date_time,
+            rn.end_date_time,
+            COALESCE(f.durasi_film, e.durasi, 0) AS durasi,
+            EXTRACT(EPOCH FROM (rn.end_date_time - rn.start_date_time)) / 60 AS watched_minutes,
+            COALESCE(f.durasi_film, e.durasi, 0) * 0.7 AS threshold_minutes
+        FROM 
+            {}.{} rn
+        LEFT JOIN 
+            {}.{} f ON rn.id_tayangan = f.id_tayangan
+        LEFT JOIN 
+            {}.{} e ON rn.id_tayangan = e.id_series
+        LEFT JOIN 
+            {}.{} t ON rn.id_tayangan = t.id
+        WHERE 
+            rn.start_date_time >= NOW() - INTERVAL '7 days'
     ),
-	valid_views AS (
-		SELECT
-			id_tayangan,
-			COUNT(*) AS view_count
-		FROM
-			recent_views
-		WHERE
-			watched_minutes >= threshold_minutes
-		GROUP BY
-			id_tayangan
-	)
-	SELECT 
-		t.id,
-		t.judul,
-		t.sinopsis,
-		t.asal_negara,
-		t.sinopsis_trailer,
-		t.url_video_trailer,
-		t.release_date_trailer,
-		COALESCE(f.url_video_film, '') AS url_video_film,
-		COALESCE(f.release_date_film, NULL) AS release_date_film,
-		COALESCE(e.sub_judul, '') AS episode_sub_judul,
-		COALESCE(e.url_video, '') AS episode_url_video,
-		COALESCE(e.release_date, NULL) AS episode_release_date,
-		v.view_count
-	FROM
-		valid_views v
-	LEFT JOIN
-		{}.{} t ON v.id_tayangan = t.id
-	LEFT JOIN
-		{}.{} f ON t.id = f.id_tayangan
-	LEFT JOIN
-		{}.{} e ON t.id = e.id_series
-	ORDER BY
-		v.view_count DESC;
-    LIMIT 10
-	""") \
-        .format(
-        sql.Identifier(schema),sql.Identifier("riwayat_nonton"),
-        sql.Identifier(schema),sql.Identifier("film"),
-        sql.Identifier(schema),sql.Identifier("episode"),
-        sql.Identifier(schema),sql.Identifier("tayangan"),
-        sql.Identifier(schema),sql.Identifier("tayangan"),
-        sql.Identifier(schema),sql.Identifier("film"),
-        sql.Identifier(schema),sql.Identifier("episode")
+    valid_views AS (
+        SELECT
+            id_tayangan,
+            COUNT(*) AS view_count
+        FROM
+            recent_views
+        WHERE
+            watched_minutes >= threshold_minutes
+        GROUP BY
+            id_tayangan
     )
-
+    SELECT 
+        t.id,
+        t.judul,
+        t.sinopsis,
+        t.asal_negara,
+        t.sinopsis_trailer,
+        t.url_video_trailer,
+        t.release_date_trailer,
+        COALESCE(f.url_video_film, '') AS url_video_film,
+        COALESCE(f.release_date_film, NULL) AS release_date_film,
+        COALESCE(e.sub_judul, '') AS episode_sub_judul,
+        COALESCE(e.url_video, '') AS episode_url_video,
+        COALESCE(e.release_date, NULL) AS episode_release_date,
+        v.view_count
+    FROM
+        valid_views v
+    LEFT JOIN
+        {}.{} t ON v.id_tayangan = t.id
+    LEFT JOIN
+        {}.{} f ON t.id = f.id_tayangan
+    LEFT JOIN
+        {}.{} e ON t.id = e.id_series
+    ORDER BY
+        v.view_count DESC
+    LIMIT 10;
+    """).format(
+        sql.Identifier(schema), sql.Identifier("riwayat_nonton"),
+        sql.Identifier(schema), sql.Identifier("film"),
+        sql.Identifier(schema), sql.Identifier("episode"),
+        sql.Identifier(schema), sql.Identifier("tayangan"),
+        sql.Identifier(schema), sql.Identifier("tayangan"),
+        sql.Identifier(schema), sql.Identifier("film"),
+        sql.Identifier(schema), sql.Identifier("episode")
+    )
     conn = get_db_connection()
     cur = conn.cursor()
     try:
         cur.execute(select_query)
         res = cur.fetchall()
-        return [dict(row) for row in res]
+        return [{
+            'id': str(row[0]),
+            'judul': row[1],
+            'sinopsis': row[2],
+            'asal_negara': row[3],
+            'sinopsis_trailer': row[4],
+            'url_video_trailer': row[5],
+            'release_date_trailer': row[6],
+            'url_video_film': row[7],
+            'release_date_film': row[8],
+            'episode_sub_judul': row[9],
+            'episode_url_video': row[10],
+            'episode_release_date': row[11],
+            'view_count': row[12]
+        } for row in res]   
     except psycopg2.Error as e:
         conn.rollback()
         raise e
@@ -505,6 +517,7 @@ def insert_review(id_tayangan, username, rating, review):
 
 def get_reviews(id_tayangan):
     schema = "pacilflix"
+    select = sql.SQL(""" """)
 
 ### BAGIAN KONTRIBUTOR
 
