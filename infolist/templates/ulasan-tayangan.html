@@ -38,13 +38,15 @@
         <div class="col-md-6">
             <h2>Reviews</h2>
             <ul>
+                {% for review in reviews %}
                 <li>
-                    {% for review in reviews %}
-                    <h3>{{ review.username}} </h3>
+                    <h3>{{ review.username }} </h3>
                     <p>Rating: {{ review.rating }} </p>
                     <p>Review: {{ review.deskripsi }}</p>
-                    {% endfor %}
                 </li>
+                {% empty %}
+                <li>No reviews yet. Be the first one!</li>
+                {% endfor %}
             </ul>
         </div>
     </div>
