@@ -11,6 +11,14 @@
         <h2>Judul: {{ episode_data.series_judul }} </h2>
         <h3>Sub Judul: {{ episode_data.sub_judul }}</h3>
 
+        <form method="post" action="">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="range_input">
+            <label for="Range-tonton" class="form-label">Tonton Film</label>
+            <input type="range" class="form-range" min="0" max="100" step="0.5" id="Range-tonton" name="watch_percentage">
+            <button type="submit" class="btn btn-primary">TONTON</button>
+        </form>
+
         <p>Sinopsis Episode: {{ episode_data.sinopsis }}</p>
         <p>Durasi Episode: {{ episode_data.durasi }} minutes</p>
         <p>URL Episode: <a href="{{ episode_data.url_video }}">Watch Episode</a></p>

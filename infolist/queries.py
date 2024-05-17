@@ -166,7 +166,6 @@ def get_top10_tayangan_global():
         cur.close()
         conn.close()
 
-
 def get_all_movies():
     schema = "pacilflix"
     select_query = sql.SQL(
@@ -498,6 +497,7 @@ def store_viewing_history(username, id_tayangan, start_date_time, end_date_time)
             """)
         cur.execute(insert_query, (username, id_tayangan, start_date_time, end_date_time))
         conn.commit()
+        return "Riwayat nonton berhasil disimpan."
     except psycopg2.Error as e:
         conn.rollback()
         raise e

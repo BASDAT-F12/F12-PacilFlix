@@ -2,9 +2,11 @@ from django.shortcuts import get_object_or_404,render,redirect
 from django.http import JsonResponse
 import psycopg2
 from psycopg2 import IntegrityError
+import datetime
+from datetime import datetime, timedelta 
 from infolist.queries import get_all_movies, get_all_series, get_search_result, get_movie_data, \
                             get_all_contributors, get_series_data, get_episode_data, get_top10_tayangan_global,\
-                            get_reviews, insert_review
+                            get_reviews, insert_review, store_viewing_history
 
 
 def list_tayangan(request):
@@ -35,16 +37,24 @@ def detail_tayangan_film(request, id):
 
     if request.method == 'POST':
         username = request.session.get('username')
-
-        rating = int(request.POST['rating']) 
-        review = request.POST['review_text']  
-
-        message = insert_review(id, username, rating, review)
-        if message != "Review berhasil ditambahkan.":
-            error_message = message
+        action = request.POST['action']
+        if action == 'review':
+            rating = int(request.POST['rating']) 
+            review = request.POST['review_text' ]
+            message = insert_review(id, username, rating, review)
+            if message != "Review berhasil ditambahkan.":
+                error_message = message
+            else:
+                return redirect('infolist:detail_tayangan_film', id=id)
         else:
-            return redirect('infolist:detail_tayangan_film', id=id)
-
+            watch_percentage = float(request.POST['watch_percentage'])
+            start_time = datetime.now()
+            end_time = start_time + timedelta(seconds=watch_percentage * 60)
+            message = store_viewing_history(username,id, start_time, end_time)
+            if message != "Riwayat nonton berhasil ditambahkan.":
+                error_message = message
+            else:
+                return redirect('infolist:detail_tayangan_film', id=id)
     return render(request, 'detail-tayangan-film.html', {
         'movie_data': movie_data,
         'reviews': reviews,
@@ -72,9 +82,20 @@ def detail_tayangan_series(request,id):
     
 def detail_tayangan_episode(request,id,name):
     episode_data = get_episode_data(id,name)
-    
+    error_message = None
+    if request.method == 'POST':
+        username = request.session.get('username')
+        watch_percentage = float(request.POST['watch_percentage'])
+        start_time = datetime.now()
+        end_time = start_time + timedelta(seconds=watch_percentage * 60)
+        message = store_viewing_history(username,id, start_time, end_time)
+        if message != "Riwayat nonton berhasil ditambahkan.":
+            error_message = message
+        else:
+            return redirect('infolist:detail_tayangan_episode', id=id, name=name)
     return render(request, 'detail-tayangan-episode.html', {
-        'episode_data': episode_data
+        'episode_data': episode_data,
+        'error_message': error_message
     })
 
 def show_contributors(request):
