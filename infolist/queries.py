@@ -280,7 +280,102 @@ def get_movie_data(id):
 
 
 def get_series_data(id):
-    pass 
+    schema = "pacilflix"
+    select_query = sql.SQL("""
+    SELECT 
+        s.id_tayangan, 
+        t.judul, 
+        t.asal_negara,
+        t.sinopsis, 
+        AVG(u.rating) AS average_rating,
+        STRING_AGG(DISTINCT gt.genre, ', ') AS genres,
+        STRING_AGG(DISTINCT c1.nama, ', ') AS penulis_skenario,
+        STRING_AGG(DISTINCT c2.nama, ', ') AS sutradara,
+        STRING_AGG(DISTINCT c3.nama, ', ') AS pemain,
+        STRING_AGG(DISTINCT e.sub_judul, ', ') AS episode_judul,
+        STRING_AGG(DISTINCT e.durasi::text, ', ') AS episode_durasi
+    FROM 
+        {}.{} s
+    LEFT JOIN
+        {}.{} t ON t.id = s.id_tayangan
+    LEFT JOIN 
+        {}.{} u ON s.id_tayangan = u.id_tayangan
+    LEFT JOIN 
+        {}.{} gt ON s.id_tayangan = gt.id_tayangan
+    LEFT JOIN 
+        {}.{} mst ON s.id_tayangan = mst.id_tayangan
+    LEFT JOIN 
+        {}.{} ps ON mst.id_penulis_skenario = ps.id
+    LEFT JOIN 
+        {}.{} c1 ON ps.id = c1.id
+    LEFT JOIN 
+        {}.{} prt ON s.id_tayangan = prt.id_tayangan
+    LEFT JOIN 
+        {}.{} st ON t.id_sutradara = st.id
+    LEFT JOIN 
+        {}.{} c2 ON st.id = c2.id
+    LEFT JOIN 
+        {}.{} mtt ON s.id_tayangan = mtt.id_tayangan
+    LEFT JOIN 
+        {}.{} p ON mtt.id_pemain = p.id
+    LEFT JOIN 
+        {}.{} c3 ON p.id = c3.id
+    LEFT JOIN 
+        {}.{} e ON s.id_tayangan = e.id_series
+    WHERE 
+        s.id_tayangan = %s
+    GROUP BY 
+        s.id_tayangan, t.judul, t.asal_negara, t.sinopsis;  
+    """).format(
+        sql.Identifier(schema), sql.Identifier('series'),
+        sql.Identifier(schema), sql.Identifier('tayangan'),
+        sql.Identifier(schema), sql.Identifier('ulasan'),
+        sql.Identifier(schema), sql.Identifier('genre_tayangan'),
+        sql.Identifier(schema), sql.Identifier('menulis_skenario_tayangan'),
+        sql.Identifier(schema), sql.Identifier('penulis_skenario'), 
+        sql.Identifier(schema), sql.Identifier('contributors'),
+        sql.Identifier(schema), sql.Identifier('persetujuan'),
+        sql.Identifier(schema), sql.Identifier('sutradara'),
+        sql.Identifier(schema), sql.Identifier('contributors'),
+        sql.Identifier(schema), sql.Identifier('memainkan_tayangan'),
+        sql.Identifier(schema), sql.Identifier('pemain'),
+        sql.Identifier(schema), sql.Identifier('contributors'),
+        sql.Identifier(schema), sql.Identifier('episode')
+    )
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(select_query, (id,))
+        series = cur.fetchone()
+        if series:
+            genres = series[5].split(',') if series[5] else []
+            penulis_skenario = series[6].split(',') if series[6] else []
+            pemain = series[8].split(',') if series[8] else []
+            episode_judul = series[9].split(',') if series[9] else []
+            episode_durasi = series[10].split(',') if series[10] else []
+            
+            return {
+                'id_tayangan': str(series[0]),
+                'judul': series[1],
+                'asal_negara': series[2],
+                'sinopsis': series[3],
+                'average_rating': series[4],
+                'genres': genres,
+                'penulis_skenario': penulis_skenario,
+                'sutradara': series[7],
+                'pemain': pemain,
+                'episode_judul': episode_judul,
+                'episode_durasi': episode_durasi            
+            }
+        else:
+            return None
+    except psycopg2.Error as e:
+        conn.rollback()
+        raise e
+    finally:
+        cur.close()
+        conn.close()
+                
 ### PENCARIAN
 
 def get_search_result(query):
@@ -302,7 +397,11 @@ def get_search_result(query):
     try:
         cur.execute(select_query)
         tayangans = cur.fetchall()
-        return [{'id': str(tayangan[0]), 'judul': tayangan[1], 'sinopsis_trailer': tayangan[2], 'url_video_trailer': tayangan[3], 'release_date_trailer': tayangan[4]} for tayangan in tayangans]
+        return [{'id': str(tayangan[0]), 
+                 'judul': tayangan[1], 
+                 'sinopsis_trailer': tayangan[2], 
+                 'url_video_trailer': tayangan[3], 
+                 'release_date_trailer': tayangan[4]} for tayangan in tayangans]
     except psycopg2.Error as e:
         conn.rollback()
         raise e
