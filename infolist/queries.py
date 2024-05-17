@@ -554,6 +554,27 @@ def get_search_result(query):
 
 def insert_review(id_tayangan, username, rating, review):
     schema = "pacilflix"
+    insert_query = sql.SQL("""
+    INSERT INTO {}.{} (id_tayangan, username, rating, deskripsi, timestamp)
+    VALUES (%s, %s, %s, %s, %s)
+    """).format(
+        sql.Identifier(schema), sql.Identifier('ulasan')
+    )
+    
+    timestamp = 'NOW()'
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(insert_query, (id_tayangan, username, rating, review, timestamp))
+        conn.commit()
+    except psycopg2.Error as e:
+        conn.rollback()
+        return "Anda sudah memberikan review untuk tayangan ini."
+    finally:
+        cur.close()
+        conn.close()
+    return "Review berhasil ditambahkan."
+    
 
 def get_reviews(id_tayangan):
     schema = "pacilflix"
