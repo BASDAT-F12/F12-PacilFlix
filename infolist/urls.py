@@ -1,4 +1,5 @@
 from django.urls import path
+
 from infolist.views import list_tayangan, detail_tayangan_episode,detail_tayangan_film,detail_tayangan_series, search_list, show_contributors
 
 app_name = 'infolist'
