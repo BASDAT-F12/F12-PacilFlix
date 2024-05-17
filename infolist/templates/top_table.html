@@ -26,7 +26,11 @@
                 <td>{{tayangan.release_date_trailer}}</td>
                 <td>{{tayangan.view_count}}</td>
                 {% if request.session.is_authenticated %}
-                    <td><a href="" class="btn btn-primary">Tonton</a></td>
+                    {% if tayangan.type == 'film' %}
+                    <td><a href="../../infolist/detail-tayangan-film/{{tayangan.id}}" class="btn btn-primary">Tonton</a></td>
+                    {% else %}
+                    <td><a href="../../infolist/detail-tayangan-series/{{tayangan.id}}" class="btn btn-primary">Tonton</a></td>
+                    {% endif %}
                 {% endif %}
             </tr>
             {% endfor %}

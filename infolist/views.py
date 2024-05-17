@@ -18,7 +18,6 @@ def list_tayangan(request):
         'series': series,
     })
 
-    
 def search_list(request):
     query = request.GET.get('q', '')
     if query:
@@ -73,6 +72,7 @@ def detail_tayangan_series(request,id):
     
 def detail_tayangan_episode(request,id,name):
     episode_data = get_episode_data(id,name)
+    
     return render(request, 'detail-tayangan-episode.html', {
         'episode_data': episode_data
     })
