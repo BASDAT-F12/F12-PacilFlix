@@ -13,46 +13,17 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Premium</td>
-            <td>4/3/2024</td>
-            <td>5/3/2024</td>
-            <td>E-Wallet</td>
-            <td>4/3/2024</td>
-            <td>75,000 IDR</td>
-        </tr>
-        <tr>
-            <td>Premium</td>
-            <td>1/25/2024</td>
-            <td>2/25/2024</td>
-            <td>Transfer Bank</td>
-            <td>1/25/2024</td>
-            <td>75,000 IDR</td>
-        </tr>
-        <tr>
-            <td>Basic</td>
-            <td>12/12/2023</td>
-            <td>1/12/2024</td>
-            <td>E-Wallet</td>
-            <td>12/12/2023</td>
-            <td>30,000 IDR</td>
-        </tr>
-        <tr>
-            <td>Basic</td>
-            <td>10/14/2023</td>
-            <td>11/14/2023</td>
-            <td>Kredit</td>
-            <td>10/14/2023</td>
-            <td>30,000 IDR</td>
-        </tr>
-        <tr>
-            <td>Standard</td>
-            <td>8/20/2023</td>
-            <td>9/20/2023</td>
-            <td>Transfer Bank</td>
-            <td>9/20/2023</td>
-            <td>50,000 IDR</td>
-        </tr>
+        {% for transaction in histories %}
+            <tr>
+                <td>{{ transaction.nama }}</td>
+                <td>{{ transaction.tanggal_dimulai }}</td>
+                <td>{{ transaction.tanggal_akhir }}</td>
+                <td>{{ transaction.metode_pembayaran }}</td>
+                <td>{{ transaction.tanggal_pembayaran }}</td>
+                <td>{{ transaction.total_pembayaran }}</td>
+            </tr>
+
+        {% endfor %}
         </tbody>
     </table>
 </div>

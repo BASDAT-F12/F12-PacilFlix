@@ -7,40 +7,53 @@
 {% block content %}
 <div class="container mt-4">
     <h1>HALAMAN FILM</h1>
-    <h2> Judul: Crac</h2>
-    <button class="btn btn-primary" href="">Tonton</button>
+    <h2> Judul: {{ movie_data.judul }}</h2>
+
+    <form method="post" action="">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="range_input">
+        <label for="Range-tonton" class="form-label">Tonton Film</label>
+        <input type="range" class="form-range" min="0" max="100" step="0.5" id="Range-tonton" name="watch_percentage">
+        <button type="submit" class="btn btn-primary">TONTON</button>
+    </form>
+
     <button class="btn btn-primary" href="">Download</button>
     <button class="btn btn-primary" href="">Favorite</button>
 
-    <p>Total View: 30000</p>
-    <p>Rating: 4.5</p>
-    <p>Sinopsis: Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.</p>
-    <p>Durasi Film: 120 Menit</p>
-    <p>URL Film: https://www.example.com/film/crac</p>
+    <p>Total View: {{movie_data.total_view_count}} </p>
+    <p>Rating: {{ movie_data.average_rating }}</p>
+    <p>Sinopsis: <br> {{ movie_data.sinopsis }}</p>
+    <p>Durasi Film: {{ movie_data.durasi_film }}</p>
+    <p>URL Film: {{ movie_data.url_video_film }}</p>
+
     <p>Genre:</p>
     <ul>
-        <li>Mystery</li>
-        <li>Horror</li>
-        <li>Thriller</li>
+        {% for genre in movie_data.genres %}
+        <li>{{ genre }}</li>
+        {% endfor %}
     </ul>
+        
+
+    <p>Asal Negara: {{ movie_data.asal_negara }} </p>
 
     <!-- Cast -->
     <p>Pemain:</p>
     <ul>
-        <li>Kathleen MacKilroe</li>
-        <li>Chandal Alibone</li>
-        <li>Whit Dicker</li>
+        {% for pemain in movie_data.pemain %}
+        <li>{{pemain}}</li>
+        {% endfor %}
     </ul>
 
     <!-- Screenplay Writers -->
     <p>Penulis:</p>
     <ul>
-        <li>Gerry Woolley</li>
-        <li>Delmar Jobbins</li>
+        {% for penulis in movie_data.penulis_skenario  %}
+        <li>{{penulis}}</li>
+        {% endfor %}
     </ul>
 
     <!-- Director -->
-    <p>Sutradara: Meryl Kellet</p>
+    <p>Sutradara: {{movie_data.sutradara}}</p>
 
     {% include "ulasan-tayangan.html" %}
 </div>

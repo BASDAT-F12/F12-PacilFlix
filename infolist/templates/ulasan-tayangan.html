@@ -3,8 +3,14 @@
     <div class="row">
         <div class="col-md-6">
             <h2>Leave a Review</h2>
+            {% if error_message %}
+            <div class="alert alert-danger" role="alert">
+                {{ error_message }}
+            </div>
+            {% endif %}
             <form method="post" action="">
                 {% csrf_token %}
+                <input type="hidden" name="action" value="review">
                 <div class="form-group">
                     <label for="review-input">Your Review:</label>
                     <input type="text" class="form-control" id="review-input" name="review_text" required>
@@ -38,14 +44,17 @@
         <div class="col-md-6">
             <h2>Reviews</h2>
             <ul>
+                {% for review in reviews %}
                 <li>
-                    <h3>John Doe</h3>
-                    <p>Rating: 5</p>
-                    <p>Review: This is a great thing!</p>
+                    <h3>{{ review.username }} </h3>
+                    <p>Rating: {{ review.rating }} </p>
+                    <p>Review: {{ review.deskripsi }}</p>
                 </li>
+                {% empty %}
+                <li>No reviews yet. Be the first one!</li>
+                {% endfor %}
             </ul>
         </div>
     </div>
 </div>
-
-{% endblock  %}
+{% endblock %}

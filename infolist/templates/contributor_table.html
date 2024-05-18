@@ -1,0 +1,60 @@
+<script>
+    function filterContributors() {
+        var selectBox = document.getElementById("contributor-type");
+        var selectedValue = selectBox.value;
+        var table = document.getElementById("contributor-table");
+        var tr = table.getElementsByTagName("tr");
+
+        for (var i = 1; i < tr.length; i++) { // start at 1 to skip table header
+            var tdType = tr[i].getElementsByTagName("td")[1];
+            if (tdType) {
+                var types = tdType.textContent || tdType.innerText;
+                if (selectedValue === "all" || types.includes(selectedValue)) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+</head>
+
+<div class="container mt-4">
+    <h2 style="font-weight: bold; text-align: left; margin-top: 30px; margin-bottom: 30px">Daftar Kontributor</h2>
+    <div class="dropdown" id="dropdown-container">
+        <select class="form-select" aria-label="Default select example" style="width: 200px; margin-top: 40px" id="contributor-type" onchange="filterContributors()">
+            <option value="all" selected>Cari berdasarkan Tipe</option>
+            <option value="Pemain">Pemain</option>
+            <option value="Sutradara">Sutradara</option>
+            <option value="Penulis Skenario">Penulis Skenario</option>
+        </select>
+    </div>
+    <table class="table table mt-4" id="contributor-table">
+        <colgroup>
+            <col style="width: 200px"> <!-- Kolom Nama -->
+            <col> <!-- Kolom Tipe -->
+            <col> <!-- Kolom Jenis Kelamin -->
+            <col> <!-- Kolom Kewarganegaraan -->
+        </colgroup>
+        <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Tipe</th>
+            <th>Jenis Kelamin</th>
+            <th>Kewarganegaraan</th>
+        </tr>
+        </thead>
+        <tbody id="contributor-body">
+        {% for contributor in contributors %}
+            <tr>
+                <td>{{ contributor.nama }}</td>
+                <td>{{ contributor.tipe }}</td>
+                <td>{{ contributor.jenis_kelamin }}</td>
+                <td>{{ contributor.kewarganegaraan }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+

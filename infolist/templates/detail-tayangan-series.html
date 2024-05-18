@@ -7,45 +7,46 @@
 {% block content %}
 <div class="container mt-4">
     <h1>HALAMAN SERIES</h1>
-    <h2> Judul: Resurrecting the Street Walker</h2>
-    <button class="btn btn-primary" href="">Tonton</button>
+    <h2> Judul: {{ series_data.judul }}</h2>
+    
     <button class="btn btn-primary" href="">Download</button>
     <button class="btn btn-primary" href="">Favorite</button>
 
     <h3>Episodes</h3>
     <ul>
-        <li><a href="{% url 'infolist:detail_tayangan_episode' %}">Watch Episode 1 - Whispers in the Dark</a></li>
-        <li><a href="{% url 'infolist:detail_tayangan_episode' %}">Watch Episode 2 - Dance of the Elements</a></li>
+        {% for judul in series_data.episode_judul %}
+        <li><a href="{% url 'infolist:detail_tayangan_episode' series_data.id_tayangan judul %}">Watch Episode {{forloop.counter}}- {{judul}} </a></li>
+        {% endfor %}
     </ul>
 
-    <p>Total View: 50000</p>
-    <p>Rating: 4.8</p>
-    <p>Sinopsis: Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien.</p>
+    <p>Total Views: {{series.data }} </p>
+    <p>Rating: {{series_data.average_rating}}</p>
+    <p>Sinopsis: <br> {{series_data.sinopsis}}</p>
     <p>Genre:</p>
     <ul>
-        <li>Drama</li>
-        <li>Thriller</li>
+        {% for genre in series_data.genres %}
+        <li>{{genre}}</li>
+        {% endfor %}
     </ul>
     
     <!-- Cast -->
     <p>Pemain:</p>
     <ul>
-        <li>Whit Dicker</li>
-        <li>Marabel Claremont</li>
-        <li>Jessamine Normant</li>
-        <li>Denver Gillibrand</li>
+        {% for pemain in series_data.pemain %}
+        <li>{{pemain}}</li>
+        {% endfor %}
     </ul>
 
     <!-- Screenplay Writers -->
     <p>Penulis:</p>
     <ul>
-        <li>Major Chidler</li>
-        <li>Nedi Bilverstone</li>
-        <li>Neely Smullin</li>
+        {% for penulis in series_data.penulis_skenario %}
+        <li>{{penulis}}</li>
+        {% endfor %}
     </ul>
 
     <!-- Director -->
-    <p>Sutradara: Meryl Kellet</p>
+    <p>Sutradara: {{series_data.sutradara}}</p>
 
     {% include "ulasan-tayangan.html" %}
 </div>

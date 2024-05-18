@@ -10,10 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+import dj_database_url
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+PRODUCTION = os.getenv('DATABASE_URL') is not None
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,8 +48,7 @@ INSTALLED_APPS = [
     'main',
     'authentication',
     'infolist',
-    'user',
-    'contributors'
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -56,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
+
 ]
 
 ROOT_URLCONF = 'PacilFix.urls'
@@ -83,9 +88,19 @@ WSGI_APPLICATION = 'PacilFix.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
+    ### LOCAL
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    ### Local Farrel
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME' : 'pacilflix',
+    #     'USER' : 'postgres',
+    #     'PASSWORD' : 'noovader1',
+    #     'HOST' : 'localhost',
+    #     'PORT' : '5432',
     # }
     # Local Vinka
     # 'default': {
@@ -98,12 +113,12 @@ DATABASES = {
     # }
     # Semoga bisa deployment
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres.witvydzeryxcceqwiqhn',
-        'PASSWORD': 'FasilkomPacil22',
-        'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
-        'PORT': '5432',
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'postgres',
+       'USER': 'postgres.witvydzeryxcceqwiqhn',
+       'PASSWORD': 'FasilkomPacil22',
+       'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
+       'PORT': '5432',
     }
 }
 

@@ -8,7 +8,17 @@ def create_connection():
         # dbname="vinka.alrezky",
         # user="postgres",
         # password="VeryVerySecret",
-        # host="localhost"
+        # host="localhost",
+        # port="5432"
+        
+        #local farrel
+        # dbname="pacilflix",
+        # user = "postgres",
+        # password = "noovader1",
+        # host="localhost",
+        # port="5432"
+
+        # database deployment
         dbname="postgres",
         user="postgres.witvydzeryxcceqwiqhn",
         password="FasilkomPacil22",
@@ -17,7 +27,6 @@ def create_connection():
     )
     return conn
 
-# Fungsi untuk mengeksekusi kueri tanpa hasil kembali
 def execute_query(query, params=None):
     conn = create_connection()
     cur = conn.cursor()
@@ -58,9 +67,9 @@ def login_user(username, password):
         cur.execute(select_query, (username, password))
         user = cur.fetchone()
         if user:
-            return True  # Pengguna ditemukan, berhasil login
+            return True  # Pengguna not found, login successfull
         else:
-            return False  # Pengguna tidak ditemukan atau password salah
+            return False  # Pengguna not found or password is wrong
     except psycopg2.Error as e:
         raise e
     finally:
